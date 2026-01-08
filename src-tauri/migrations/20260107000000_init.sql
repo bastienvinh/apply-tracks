@@ -101,3 +101,34 @@ CREATE TABLE IF NOT EXISTS feedback_documents (
   FOREIGN KEY (feedback_id) REFERENCES feedbacks(id) ON DELETE CASCADE,
   FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
 );
+
+-- ============
+-- Tags system for activities categorization
+-- ============
+CREATE TABLE IF NOT EXISTS tags (
+  id              TEXT PRIMARY KEY,
+  name            TEXT NOT NULL UNIQUE,
+  color           TEXT, -- Hex color for UI display
+  description     TEXT,
+  created_at      TEXT NOT NULL, -- ISO8601
+  updated_at      TEXT NOT NULL  -- ISO8601
+);
+
+-- ============
+-- Tag relationships
+-- ============
+CREATE TABLE IF NOT EXISTS application_tags (
+  application_id  TEXT NOT NULL,
+  tag_id          TEXT NOT NULL,
+  PRIMARY KEY (application_id, tag_id),
+  FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
+  FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS contact_tags (
+  contact_id      TEXT NOT NULL,
+  tag_id          TEXT NOT NULL,
+  PRIMARY KEY (contact_id, tag_id),
+  FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE,
+  FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
+);
