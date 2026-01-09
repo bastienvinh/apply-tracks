@@ -1,13 +1,15 @@
 import { Outlet } from "react-router";
 import "./App.css";
+import { DetectScreensize } from "./components/DetectScreensize";
 
 function App() {
-  
 
   return (
-    <div className="">
-      <Outlet />
-    </div>
+    <DetectScreensize>
+      <div className="h-screen w-screen">
+        <Outlet />
+      </div>
+    </DetectScreensize>
   );
 }
 
