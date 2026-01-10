@@ -1,5 +1,7 @@
 import { invoke } from "@tauri-apps/api/core"
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"
+import { Maximize2, Minimize2 } from "lucide-react"
+import { Button } from "./ui/button"
 
 interface SystemInfo {
   screen_width: number;
@@ -48,9 +50,42 @@ export function DetectScreensize({ children }: { children?: React.ReactNode }) {
     }
   }, [])
 
+  const toggleFullscreen = async () => {
+    try {
+      const { getCurrentWindow } = await import("@tauri-apps/api/window")
+      const appWindow = getCurrentWindow()
+      await appWindow.setFullscreen(true)
+    } catch (error) {
+      console.error("Failed to toggle fullscreen:", error)
+    }
+  }
+
   // TODO: Improve this code for the other environment
   if (platform === 'macos' && scaleFactor >= 2 && windowSize.width * scaleFactor < monitorSize.width) {
-    return <div>Veuillez mettre en plein écran</div>
+    return <main className="flex min-h-screen flex-col items-center justify-center bg-background p-8">
+      <div className="flex flex-col items-center gap-8 text-center">
+        {/* Message */}
+        <div className="space-y-2">
+          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+            Agrandissez pour la meilleure expérience
+          </h1>
+          <p className="text-muted-foreground">
+            Cliquez sur le bouton ci-dessous pour maximiser votre écran
+          </p>
+        </div>
+
+        {/* Resize Button */}
+        <Button onClick={toggleFullscreen} size="lg" className="gap-2 px-8 py-6 text-lg">
+          <Maximize2 className="h-5 w-5" />
+          Plein Écran
+        </Button>
+
+        {/* Helper text */}
+        <p className="text-sm text-muted-foreground/70">
+          Tauri détecté
+        </p>
+      </div>
+    </main>
   }
 
   return children;
