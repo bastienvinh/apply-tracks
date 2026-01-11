@@ -13,7 +13,7 @@ export function AppSideBar() {
                   <SidebarMenuButton asChild>
                     <a href="/">
                       <LayoutDashboard />
-                      <span>DashBoard</span>
+                      <span>Dashboard</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>

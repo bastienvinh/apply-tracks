@@ -3,7 +3,7 @@ import "./App.css"
 import { DetectScreensize } from "./components/DetectScreensize"
 import { AppSideBar } from "./components/AppSideBar"
 import { SidebarInset } from "./components/ui/sidebar"
-import { SidebarHeader } from "./components/sidebar-header"
+import { SidebarHeader } from "./components/SidebarHeader"
 
 function App() {
 
