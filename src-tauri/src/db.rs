@@ -2,13 +2,19 @@ use sqlx::sqlite::{SqliteConnectOptions, SqliteJournalMode, SqliteSynchronous};
 use sqlx::SqlitePool;
 use tauri::Manager;
 use std::{error::Error, fs, path::PathBuf};
-use tauri::path::BaseDirectory;
+// use tauri::path::BaseDirectory;
 
 fn resolve_db_path(app: &tauri::AppHandle) -> Result<PathBuf, Box<dyn Error>> {
   // Tauri v2 API
+  // let db_path = app
+  //   .path()
+  //   .resolve("apply-track.sqlite3", BaseDirectory::AppData)?;
+
   let db_path = app
     .path()
-    .resolve("apply-track.sqlite3", BaseDirectory::AppData)?;
+    .document_dir()?
+    .join("ApplyTrack")
+    .join("apply-track.sqlite3");
 
   if let Some(parent) = db_path.parent() {
     fs::create_dir_all(parent)?;

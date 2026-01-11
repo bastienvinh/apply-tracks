@@ -2,7 +2,7 @@ import { LayoutDashboard, Users, FileText, MessageSquare, Tags, Building2 } from
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar"
 
 export function AppSideBar() {
-  return <Sidebar className="flex flex-1">
+  return <Sidebar className="flex flex-1" variant="inset">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
