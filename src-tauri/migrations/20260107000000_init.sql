@@ -8,26 +8,41 @@ PRAGMA foreign_keys = ON;
 -- Contract: CDI, CDD, Alternance, Stage, Freelance, Interim
 
 -- ============
+-- Companies
+-- ============
+CREATE TABLE IF NOT EXISTS companies (
+  id            TEXT PRIMARY KEY,
+  name          TEXT NOT NULL,
+  website       TEXT,
+  industry      TEXT,
+  location      TEXT,
+  notes         TEXT,
+  created_at    TEXT NOT NULL, -- ISO8601
+  updated_at    TEXT NOT NULL  -- ISO8601
+);
+
+-- ============
 -- Contacts (V2-ready, but usable from MVP)
 -- ============
 CREATE TABLE IF NOT EXISTS contacts (
   id            TEXT PRIMARY KEY,
   name          TEXT NOT NULL,
   role          TEXT,
-  company_name  TEXT,
+  company_id    TEXT,
   email         TEXT,
   phone         TEXT,
   linkedin_url  TEXT,
   notes         TEXT,
   created_at    TEXT NOT NULL, -- ISO8601
-  updated_at    TEXT NOT NULL  -- ISO8601
+  updated_at    TEXT NOT NULL, -- ISO8601
+  FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE SET NULL
 );
 
 
 CREATE TABLE IF NOT EXISTS applications (
   id                TEXT PRIMARY KEY,
   position_title    TEXT NOT NULL,
-  company_name      TEXT NOT NULL,
+  company_id        TEXT,
   status            TEXT NOT NULL CHECK (status IN ('Draft', 'Applied', 'Screening', 'Interview', 'Offer', 'Rejected', 'Ghosted')),
   remote_mode       TEXT CHECK (remote_mode IN ('remote', 'hybrid', 'onsite')),
   contract_type    TEXT CHECK (contract_type IN ('CDI', 'CDD', 'Alternance', 'Stage', 'Freelance', 'Interim')),
@@ -36,7 +51,8 @@ CREATE TABLE IF NOT EXISTS applications (
   source            TEXT,
   notes             TEXT,
   created_at        TEXT NOT NULL, -- ISO8601
-  updated_at        TEXT NOT NULL  -- ISO8601
+  updated_at        TEXT NOT NULL, -- ISO8601
+  FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS application_contacts (

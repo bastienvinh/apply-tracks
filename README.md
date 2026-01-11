@@ -1,7 +1,10 @@
-# Tauri + React + Typescript
+# Apply Trackings
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+It's application to manage job applications from french job market. It's will be easiy to manage job application:
+- Companies Management
+- Contact Management
+- Tags
+- Applications
+- Dashboard
 
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+The dashboard will propose a lot of features to manage job applications. You will able to be pro-active.

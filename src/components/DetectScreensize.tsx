@@ -62,7 +62,7 @@ export function DetectScreensize({ children }: { children?: React.ReactNode }) {
 
   // TODO: Improve this code for the other environment
   if (platform === 'macos' && scaleFactor >= 2 && windowSize.width * scaleFactor < monitorSize.width) {
-    return <main className="flex min-h-screen flex-col items-center justify-center bg-background p-8">
+    return <main className="flex min-h-screen min-w-screen flex-col items-center justify-center bg-background p-8">
       <div className="flex flex-col items-center gap-8 text-center">
         {/* Message */}
         <div className="space-y-2">

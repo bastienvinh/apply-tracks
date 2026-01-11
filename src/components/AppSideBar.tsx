@@ -1,4 +1,4 @@
-import { LayoutDashboard, Users, FileText, MessageSquare, Tags } from "lucide-react"
+import { LayoutDashboard, Users, FileText, MessageSquare, Tags, Building2 } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar"
 
 export function AppSideBar() {
@@ -14,6 +14,15 @@ export function AppSideBar() {
                     <a href="/">
                       <LayoutDashboard />
                       <span>DashBoard</span>
+                    </a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <a href="/companies">
+                      <Building2 />
+                      <span>Entreprises</span>
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
@@ -53,7 +62,6 @@ export function AppSideBar() {
                     </a>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-
 
             </SidebarMenu>
           </SidebarGroupContent>
