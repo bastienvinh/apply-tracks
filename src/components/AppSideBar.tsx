@@ -1,5 +1,6 @@
 import { LayoutDashboard, Users, FileText, MessageSquare, Tags, Building2, Factory } from "lucide-react"
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "./ui/sidebar"
+import { Link } from "react-router"
 
 export function AppSideBar() {
   return <Sidebar className="flex flex-1" variant="inset">
@@ -11,64 +12,64 @@ export function AppSideBar() {
               
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <a href="/">
+                    <Link to="/">
                       <LayoutDashboard />
                       <span>Dashboard</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <a href="/industries">
+                    <Link to="/industries">
                       <Factory />
                       <span>Secteur d'Activité</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <a href="/companies">
+                    <Link to="/companies">
                       <Building2 />
                       <span>Entreprises</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <a href="/contacts">
+                    <Link to="/contacts">
                       <Users />
                       <span>Contact</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <a href="/list">
+                    <Link to="/list">
                       <FileText />
                       <span>Annonces</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <a href="/feedbacks">
+                    <Link to="/feedbacks">
                       <MessageSquare />
                       <span>Feedbacks</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
                 <SidebarMenuItem>
                   <SidebarMenuButton asChild>
-                    <a href="/tags">
+                    <Link to="/tags">
                       <Tags />
                       <span>Tags</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
