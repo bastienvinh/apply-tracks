@@ -8,17 +8,29 @@ PRAGMA foreign_keys = ON;
 -- Contract: CDI, CDD, Alternance, Stage, Freelance, Interim
 
 -- ============
+-- Industries
+-- ============
+CREATE TABLE IF NOT EXISTS industries (
+  id            TEXT PRIMARY KEY,
+  name          TEXT NOT NULL UNIQUE,
+  description   TEXT,
+  created_at    TEXT NOT NULL, -- ISO8601
+  updated_at    TEXT NOT NULL  -- ISO8601
+);
+
+-- ============
 -- Companies
 -- ============
 CREATE TABLE IF NOT EXISTS companies (
   id            TEXT PRIMARY KEY,
   name          TEXT NOT NULL,
   website       TEXT,
-  industry      TEXT,
+  industry_id   TEXT,
   location      TEXT,
   notes         TEXT,
   created_at    TEXT NOT NULL, -- ISO8601
-  updated_at    TEXT NOT NULL  -- ISO8601
+  updated_at    TEXT NOT NULL, -- ISO8601
+  FOREIGN KEY (industry_id) REFERENCES industries(id) ON DELETE SET NULL
 );
 
 -- ============

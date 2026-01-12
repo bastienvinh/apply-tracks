@@ -1,12 +1,5 @@
 pub mod db;
+pub mod seed;
+pub mod companies;
 
-// #[cfg(test)]
-// mod tests {
-//     use super::*;
-
-//     #[test]
-//     fn it_works() {
-//         let result = add(2, 2);
-//         assert_eq!(result, 4);
-//     }
-// }
+pub use sqlx::SqlitePool as DbPool;

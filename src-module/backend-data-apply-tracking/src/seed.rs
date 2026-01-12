@@ -59,7 +59,7 @@ pub async fn reset_database(pool: &SqlitePool) -> Result<(), Box<dyn Error>> {
     clear_seed_data(pool).await?;
     
     // Run migrations again to reseed
-    sqlx::migrate!("./migrations").run(pool).await?;
+    sqlx::migrate!("./src/migrations").run(pool).await?;
     
     Ok(())
 }

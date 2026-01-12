@@ -1,7 +1,8 @@
 use std::{error::Error, fs, path::PathBuf};
 use tauri::Manager;
 mod systeminfo;
-use backend_data_apply_tracking::db::init_pool_and_migrate;
+use backend_data_apply_tracking::{db::init_pool_and_migrate, seed};
+mod commands;
 
 fn resolve_db_path(app: &tauri::AppHandle) -> Result<PathBuf, Box<dyn Error>> {
   // Tauri v2 API
@@ -33,16 +34,23 @@ pub fn run() {
                 let pool = init_pool_and_migrate(db_path.to_string_lossy().to_string()).await?;
                 
                 // Seed the database if it's empty
-                // seed::seed_database(&pool).await?;
+                seed::seed_database(&pool).await?;
                 
                 // If you want to use the pool later, store it in managed state:
                 // handle.manage(pool);
+                app.manage(pool);
                 Ok::<(), Box<dyn std::error::Error>>(())
             })?;
             Ok(())
         })
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![systeminfo::get_system_info])
+        .invoke_handler(tauri::generate_handler![
+            systeminfo::get_system_info,
+            commands::companies::fetch_companies,
+            commands::companies::fetch_company,
+            commands::companies::fetch_industries,
+            commands::companies::fetch_industry
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

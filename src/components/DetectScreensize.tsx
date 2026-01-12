@@ -1,6 +1,6 @@
 import { invoke } from "@tauri-apps/api/core"
 import { useEffect, useState } from "react"
-import { Maximize2, Minimize2 } from "lucide-react"
+import { Maximize2 } from "lucide-react"
 import { Button } from "./ui/button"
 
 interface SystemInfo {
