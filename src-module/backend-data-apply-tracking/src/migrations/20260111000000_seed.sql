@@ -50,7 +50,28 @@ VALUES
   ('tag-004', 'Télétravail', '#f59e0b', 'Postes en télétravail complet', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
   ('tag-005', 'Startup', '#ef4444', 'Entreprises en phase de démarrage', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
   ('tag-006', 'Senior', '#6366f1', 'Postes de niveau senior', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
-  ('tag-007', 'Prioritaire', '#ec4899', 'Candidatures prioritaires', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z');
+  ('tag-007', 'Prioritaire', '#ec4899', 'Candidatures prioritaires', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  -- Technologies
+  ('tag-008', 'React', '#61dafb', 'React.js framework', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-009', 'Node.js', '#339933', 'Node.js runtime', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-010', 'TypeScript', '#3178c6', 'TypeScript language', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-011', 'Python', '#3776ab', 'Python language', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-012', 'Vue.js', '#4fc08d', 'Vue.js framework', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-013', 'Angular', '#dd0031', 'Angular framework', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-014', 'Java', '#007396', 'Java language', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-015', 'Go', '#00add8', 'Go language', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-016', 'Rust', '#dea584', 'Rust language', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-017', 'Docker', '#2496ed', 'Docker containerization', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-018', 'Kubernetes', '#326ce5', 'Kubernetes orchestration', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-019', 'AWS', '#ff9900', 'Amazon Web Services', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-020', 'PostgreSQL', '#4169e1', 'PostgreSQL database', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-021', 'MongoDB', '#47a248', 'MongoDB database', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-022', 'GraphQL', '#e10098', 'GraphQL API', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-023', 'Next.js', '#000000', 'Next.js framework', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-024', 'PHP', '#777bb4', 'PHP language', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-025', 'C#', '#239120', 'C# language / .NET', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-026', 'Ruby', '#cc342d', 'Ruby / Ruby on Rails', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('tag-027', 'Tailwind CSS', '#06b6d4', 'Tailwind CSS framework', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z');
 
 -- ============
 -- Applications
