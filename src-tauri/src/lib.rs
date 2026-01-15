@@ -48,8 +48,8 @@ pub fn run() {
             systeminfo::get_system_info,
             commands::companies::fetch_companies,
             commands::companies::fetch_company,
-            commands::companies::fetch_industries,
-            commands::companies::fetch_industry
+            commands::industries::fetch_industries,
+            commands::industries::fetch_industry
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

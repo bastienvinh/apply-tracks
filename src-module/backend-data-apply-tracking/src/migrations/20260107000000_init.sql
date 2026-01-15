@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS industries (
   name          TEXT NOT NULL UNIQUE,
   description   TEXT,
   created_at    TEXT NOT NULL, -- ISO8601
-  updated_at    TEXT NOT NULL  -- ISO8601
+  updated_at    TEXT NOT NULL, -- ISO8601
+  deleted_at    TEXT           -- ISO8601, NULL if not deleted
 );
 
 -- ============
@@ -30,6 +31,7 @@ CREATE TABLE IF NOT EXISTS companies (
   notes         TEXT,
   created_at    TEXT NOT NULL, -- ISO8601
   updated_at    TEXT NOT NULL, -- ISO8601
+  deleted_at    TEXT,          -- ISO8601, NULL if not deleted
   FOREIGN KEY (industry_id) REFERENCES industries(id) ON DELETE SET NULL
 );
 
@@ -47,6 +49,7 @@ CREATE TABLE IF NOT EXISTS contacts (
   notes         TEXT,
   created_at    TEXT NOT NULL, -- ISO8601
   updated_at    TEXT NOT NULL, -- ISO8601
+  deleted_at    TEXT,          -- ISO8601, NULL if not deleted
   FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE SET NULL
 );
 
@@ -64,12 +67,14 @@ CREATE TABLE IF NOT EXISTS applications (
   notes             TEXT,
   created_at        TEXT NOT NULL, -- ISO8601
   updated_at        TEXT NOT NULL, -- ISO8601
+  deleted_at        TEXT,          -- ISO8601, NULL if not deleted
   FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE SET NULL
 );
 
 CREATE TABLE IF NOT EXISTS application_contacts (
   application_id  TEXT NOT NULL,
   contact_id      TEXT NOT NULL,
+  deleted_at      TEXT,          -- ISO8601, NULL if not deleted
   PRIMARY KEY (application_id, contact_id),
   FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
   FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE
@@ -85,6 +90,7 @@ CREATE TABLE IF NOT EXISTS feedbacks (
   content         TEXT NOT NULL,
   created_at      TEXT NOT NULL, -- ISO8601
   updated_at      TEXT NOT NULL, -- ISO8601
+  deleted_at      TEXT,          -- ISO8601, NULL if not deleted
   FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
   FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE SET NULL
 );
@@ -100,7 +106,8 @@ CREATE TABLE IF NOT EXISTS documents (
   mime_type       TEXT,
   description     TEXT,
   created_at      TEXT NOT NULL, -- ISO8601
-  updated_at      TEXT NOT NULL  -- ISO8601
+  updated_at      TEXT NOT NULL, -- ISO8601
+  deleted_at      TEXT           -- ISO8601, NULL if not deleted
 );
 
 -- ============
@@ -109,6 +116,7 @@ CREATE TABLE IF NOT EXISTS documents (
 CREATE TABLE IF NOT EXISTS application_documents (
   application_id  TEXT NOT NULL,
   document_id     TEXT NOT NULL,
+  deleted_at      TEXT,          -- ISO8601, NULL if not deleted
   PRIMARY KEY (application_id, document_id),
   FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
   FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
@@ -117,6 +125,7 @@ CREATE TABLE IF NOT EXISTS application_documents (
 CREATE TABLE IF NOT EXISTS contact_documents (
   contact_id      TEXT NOT NULL,
   document_id     TEXT NOT NULL,
+  deleted_at      TEXT,          -- ISO8601, NULL if not deleted
   PRIMARY KEY (contact_id, document_id),
   FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE,
   FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
@@ -125,6 +134,7 @@ CREATE TABLE IF NOT EXISTS contact_documents (
 CREATE TABLE IF NOT EXISTS feedback_documents (
   feedback_id     TEXT NOT NULL,
   document_id     TEXT NOT NULL,
+  deleted_at      TEXT,          -- ISO8601, NULL if not deleted
   PRIMARY KEY (feedback_id, document_id),
   FOREIGN KEY (feedback_id) REFERENCES feedbacks(id) ON DELETE CASCADE,
   FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE
@@ -139,7 +149,8 @@ CREATE TABLE IF NOT EXISTS tags (
   color           TEXT, -- Hex color for UI display
   description     TEXT,
   created_at      TEXT NOT NULL, -- ISO8601
-  updated_at      TEXT NOT NULL  -- ISO8601
+  updated_at      TEXT NOT NULL, -- ISO8601
+  deleted_at      TEXT           -- ISO8601, NULL if not deleted
 );
 
 -- ============
@@ -148,6 +159,7 @@ CREATE TABLE IF NOT EXISTS tags (
 CREATE TABLE IF NOT EXISTS application_tags (
   application_id  TEXT NOT NULL,
   tag_id          TEXT NOT NULL,
+  deleted_at      TEXT,          -- ISO8601, NULL if not deleted
   PRIMARY KEY (application_id, tag_id),
   FOREIGN KEY (application_id) REFERENCES applications(id) ON DELETE CASCADE,
   FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
@@ -156,6 +168,7 @@ CREATE TABLE IF NOT EXISTS application_tags (
 CREATE TABLE IF NOT EXISTS contact_tags (
   contact_id      TEXT NOT NULL,
   tag_id          TEXT NOT NULL,
+  deleted_at      TEXT,          -- ISO8601, NULL if not deleted
   PRIMARY KEY (contact_id, tag_id),
   FOREIGN KEY (contact_id) REFERENCES contacts(id) ON DELETE CASCADE,
   FOREIGN KEY (tag_id) REFERENCES tags(id) ON DELETE CASCADE
