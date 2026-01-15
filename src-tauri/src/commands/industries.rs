@@ -1,4 +1,4 @@
-use backend_data_apply_tracking::industries::{get_all_industries, get_industry_by_id};
+use backend_data_apply_tracking::industries::{get_all_industries, get_industry_by_id, get_industries_paginated};
 use backend_data_apply_tracking::DbPool;
 use serde::Serialize;
 
@@ -14,6 +14,17 @@ pub struct IndustriesResult {
     pub data: Vec<IndustryResponse>,
     pub is_empty: bool,
     pub count: usize,
+}
+
+#[derive(Debug, Serialize)]
+pub struct PaginatedIndustriesResult {
+    pub data: Vec<IndustryResponse>,
+    pub count: i64,
+    pub current_page: i64,
+    pub per_page: i64,
+    pub total_pages: i64,
+    pub has_next: bool,
+    pub has_previous: bool,
 }
 
 #[derive(Debug, Serialize)]
@@ -65,6 +76,37 @@ pub async fn fetch_industry(pool: tauri::State<'_, DbPool>, id: String) -> Resul
             description: industry.description,
         }),
         Ok(None) => Err(IndustryError::NotFound { id }),
+        Err(e) => Err(IndustryError::DatabaseError { message: e.to_string() }),
+    }
+}
+
+#[tauri::command]
+pub async fn fetch_industries_paginated(
+    pool: tauri::State<'_, DbPool>,
+    page: i64,
+    per_page: i64,
+) -> Result<PaginatedIndustriesResult, IndustryError> {
+    match get_industries_paginated(&*pool, page, per_page).await {
+        Ok(result) => {
+            let data: Vec<IndustryResponse> = result.data
+                .into_iter()
+                .map(|i| IndustryResponse {
+                    id: i.id,
+                    name: i.name,
+                    description: i.description,
+                })
+                .collect();
+
+            Ok(PaginatedIndustriesResult {
+                data,
+                count: result.count,
+                current_page: result.current_page,
+                per_page: result.per_page,
+                total_pages: result.total_pages,
+                has_next: result.has_next,
+                has_previous: result.has_previous,
+            })
+        }
         Err(e) => Err(IndustryError::DatabaseError { message: e.to_string() }),
     }
 }

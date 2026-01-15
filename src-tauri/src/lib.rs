@@ -49,7 +49,8 @@ pub fn run() {
             commands::companies::fetch_companies,
             commands::companies::fetch_company,
             commands::industries::fetch_industries,
-            commands::industries::fetch_industry
+            commands::industries::fetch_industry,
+            commands::industries::fetch_industries_paginated
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

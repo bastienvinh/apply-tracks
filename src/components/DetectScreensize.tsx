@@ -25,8 +25,7 @@ export function DetectScreensize({ children }: { children?: React.ReactNode }) {
   useEffect(() => {
     async function fetchSystemInfo() {
       try {
-        const info = await getSystemInfo();
-        console.log(info)
+        const info = await getSystemInfo()
         setMonitorSize({ width: info.screen_width, height: info.screen_height })
         setPlatform(info.platform)
         setScaleFactor(info.scale_factor)
