@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS industries (
   id            TEXT PRIMARY KEY,
   name          TEXT NOT NULL UNIQUE,
   description   TEXT,
+  is_default    INTEGER NOT NULL DEFAULT 0, -- 0 = false, 1 = true
   created_at    TEXT NOT NULL, -- ISO8601
   updated_at    TEXT NOT NULL, -- ISO8601
   deleted_at    TEXT           -- ISO8601, NULL if not deleted
@@ -29,6 +30,7 @@ CREATE TABLE IF NOT EXISTS companies (
   industry_id   TEXT,
   location      TEXT,
   notes         TEXT,
+  is_default    INTEGER NOT NULL DEFAULT 0, -- 0 = false, 1 = true
   created_at    TEXT NOT NULL, -- ISO8601
   updated_at    TEXT NOT NULL, -- ISO8601
   deleted_at    TEXT,          -- ISO8601, NULL if not deleted

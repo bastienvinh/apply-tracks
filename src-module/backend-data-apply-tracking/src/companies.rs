@@ -7,6 +7,7 @@ pub struct Company {
   pub location: Option<String>,
   pub industry_id: Option<String>,
   pub notes: Option<String>,
+  pub is_default: bool,
   pub created_at: String,
   pub updated_at: String,
 }

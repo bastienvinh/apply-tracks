@@ -5,6 +5,7 @@ pub struct Industry {
   pub id: String,
   pub name: String,
   pub description: Option<String>,
+  pub is_default: bool,
   pub created_at: String,
   pub updated_at: String,
 }

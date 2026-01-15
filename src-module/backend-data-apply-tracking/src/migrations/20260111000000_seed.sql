@@ -4,27 +4,29 @@
 -- ============
 -- Industries
 -- ============
-INSERT INTO industries (id, name, description, created_at, updated_at)
+INSERT INTO industries (id, name, description, is_default, created_at, updated_at)
 VALUES
-  ('ind-001', 'Technologie', 'Entreprises du secteur technologique et numérique', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
-  ('ind-002', 'Finance', 'Banques, assurances et services financiers', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
-  ('ind-003', 'Conseil', 'Cabinets de conseil et ESN', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
-  ('ind-004', 'E-commerce', 'Commerce en ligne et marketplaces', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
-  ('ind-005', 'Santé', 'Healthtech et services de santé', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
-  ('ind-006', 'Énergie', 'Énergies renouvelables et utilities', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
-  ('ind-007', 'Transport', 'Mobilité et logistique', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
-  ('ind-008', 'Média', 'Médias, divertissement et communication', '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z');
+  ('ind-000', 'Autre', 'Industrie par défaut', 1, '2026-01-01T00:00:00Z', '2026-01-01T00:00:00Z'),
+  ('ind-001', 'Technologie', 'Entreprises du secteur technologique et numérique', 0, '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('ind-002', 'Finance', 'Banques, assurances et services financiers', 0, '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('ind-003', 'Conseil', 'Cabinets de conseil et ESN', 0, '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('ind-004', 'E-commerce', 'Commerce en ligne et marketplaces', 0, '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('ind-005', 'Santé', 'Healthtech et services de santé', 0, '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('ind-006', 'Énergie', 'Énergies renouvelables et utilities', 0, '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('ind-007', 'Transport', 'Mobilité et logistique', 0, '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z'),
+  ('ind-008', 'Média', 'Médias, divertissement et communication', 0, '2026-01-01T09:00:00Z', '2026-01-01T09:00:00Z');
 
 -- ============
 -- Companies
 -- ============
-INSERT INTO companies (id, name, website, industry_id, location, notes, created_at, updated_at)
+INSERT INTO companies (id, name, website, industry_id, location, notes, is_default, created_at, updated_at)
 VALUES
-  ('comp-001', 'Capgemini', 'https://www.capgemini.com', 'ind-003', 'Paris, France', 'Leader mondial du conseil et des services informatiques', '2026-01-01T10:00:00Z', '2026-01-01T10:00:00Z'),
-  ('comp-002', 'Doctolib', 'https://www.doctolib.fr', 'ind-005', 'Paris, France', 'Licorne française spécialisée dans la e-santé', '2026-01-02T10:00:00Z', '2026-01-02T10:00:00Z'),
-  ('comp-003', 'BlaBlaCar', 'https://www.blablacar.fr', 'ind-007', 'Paris, France', 'Plateforme de covoiturage leader en Europe', '2026-01-03T10:00:00Z', '2026-01-03T10:00:00Z'),
-  ('comp-004', 'OVHcloud', 'https://www.ovhcloud.com', 'ind-001', 'Roubaix, France', 'Hébergeur cloud européen majeur', '2026-01-04T10:00:00Z', '2026-01-04T10:00:00Z'),
-  ('comp-005', 'Société Générale', 'https://www.societegenerale.com', 'ind-002', 'Paris La Défense, France', 'Grande banque française', '2026-01-05T10:00:00Z', '2026-01-05T10:00:00Z');
+  ('comp-000', 'Non spécifiée', NULL, 'ind-000', NULL, 'Entreprise par défaut', 1, '2026-01-01T00:00:00Z', '2026-01-01T00:00:00Z'),
+  ('comp-001', 'Capgemini', 'https://www.capgemini.com', 'ind-003', 'Paris, France', 'Leader mondial du conseil et des services informatiques', 0, '2026-01-01T10:00:00Z', '2026-01-01T10:00:00Z'),
+  ('comp-002', 'Doctolib', 'https://www.doctolib.fr', 'ind-005', 'Paris, France', 'Licorne française spécialisée dans la e-santé', 0, '2026-01-02T10:00:00Z', '2026-01-02T10:00:00Z'),
+  ('comp-003', 'BlaBlaCar', 'https://www.blablacar.fr', 'ind-007', 'Paris, France', 'Plateforme de covoiturage leader en Europe', 0, '2026-01-03T10:00:00Z', '2026-01-03T10:00:00Z'),
+  ('comp-004', 'OVHcloud', 'https://www.ovhcloud.com', 'ind-001', 'Roubaix, France', 'Hébergeur cloud européen majeur', 0, '2026-01-04T10:00:00Z', '2026-01-04T10:00:00Z'),
+  ('comp-005', 'Société Générale', 'https://www.societegenerale.com', 'ind-002', 'Paris La Défense, France', 'Grande banque française', 0, '2026-01-05T10:00:00Z', '2026-01-05T10:00:00Z');
 
 -- ============
 -- Contacts
