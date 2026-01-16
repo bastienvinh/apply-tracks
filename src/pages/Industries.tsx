@@ -5,7 +5,7 @@ import { usePagination } from "@/hooks/use-pagination"
 
 export function Industries() {
 
-  const { page, limit, nextPage, prevPage } = usePagination({ defaultLimit: 10 })
+  const { page, limit } = usePagination({ defaultLimit: 10 })
   const { paginatedData, isLoading, error } = useIndustries({ page, limit })
 
   if (isLoading) {
@@ -17,10 +17,10 @@ export function Industries() {
   }
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Industries</h1>
+    <div className="flex flex-col gap-5">
+      <h1 className="text-2xl font-bold">Secteur d'activités</h1>
       <p>
-        Welcome to the Industries page. Here you can find information about various industries we serve.
+        Contient tous les secteurs d'activités possibles pour les entreprises
       </p>
 
       <IndustriesTable data={paginatedData.data} />
