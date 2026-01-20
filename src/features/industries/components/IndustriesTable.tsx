@@ -1,6 +1,5 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
 import { MoreVertical, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -18,10 +17,12 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import {
+  ColumnDef,
   useReactTable,
   getCoreRowModel,
   flexRender,
 } from "@tanstack/react-table"
+
 import { Industry } from "@/services/industries"
 
 interface IndustriesTableProps {
