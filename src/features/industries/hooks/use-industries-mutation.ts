@@ -28,3 +28,17 @@ export function useCreateIndustry() {
     }
   })
 }
+
+export function useUpdateIndustry() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (payload: { id: string } & IndustryCreatePayload) => IndustriesService.update(payload),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['industries'] })
+    },
+    onError: (error) => {
+      console.error("Error updating industry:", error)
+    }
+  })
+}

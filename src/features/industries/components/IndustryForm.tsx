@@ -1,32 +1,36 @@
 import { z } from "zod"
 import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field"
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { InputGroup, InputGroupAddon, InputGroupText, InputGroupTextarea } from "@/components/ui/input-group"
 import { useNavigate } from "react-router"
 import { industriesRoute } from "@/routes"
-import { IndustriesService } from "@/services/industries"
-import { useCreateIndustry } from "../hooks/use-industries-mutation"
+import { useCreateIndustry, useUpdateIndustry } from "../hooks/use-industries-mutation"
+import { Industry } from "@/types/industry"
 
 const formSchema = z.object({
+  id: z.uuidv4().optional(),
   title: z.string().min(2, "Le titre doit contenir au moins 2 caractères"),
   description: z.string().optional()
 })
 
 interface IndustryFormProps {
   className?: string
+  data?: Industry
 }
 
-export function IndustryForm({ className }: IndustryFormProps) {
+export function IndustryForm({ className, data }: IndustryFormProps) {
   const navigate = useNavigate()
   const { mutateAsync: createIndustry } = useCreateIndustry()
+  const { mutateAsync: updateIndustry } = useUpdateIndustry()
 
   const form = useForm({
     defaultValues: {
-      title: "",
-      description: ""
+      title: data?.name ?? "",
+      description: data?.description ?? "",
+      id: data?.id ?? null
     } as z.infer<typeof formSchema>,
     validators: {
       onSubmit: formSchema
@@ -35,7 +39,11 @@ export function IndustryForm({ className }: IndustryFormProps) {
       // console.log("Creating industry:", value)
       try {
         toast.success(`Secteur d'activité créé: ${value.title}`)
-        await createIndustry({ name: value.title, description: value.description ?? null })
+        if (data) {
+          await updateIndustry({ id: data.id, name: value.title, description: value.description ?? null })
+        } else {
+          await createIndustry({ name: value.title, description: value.description ?? null })
+        }
         navigate(industriesRoute())
       } catch (error) {
         toast.error("Une erreur est survenue lors de la création du secteur d'activité.")
@@ -56,6 +64,7 @@ export function IndustryForm({ className }: IndustryFormProps) {
           <FieldLabel form={field.name}>Nom <span className="text-sm">(Obligatoire)</span></FieldLabel>
           <Input
             id={field.name}
+            value={field.state.value}
             onBlur={field.handleBlur}
             onChange={(e) => field.handleChange(e.target.value)}
             aria-invalid={isInvalid}

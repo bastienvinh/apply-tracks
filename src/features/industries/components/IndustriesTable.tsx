@@ -1,6 +1,6 @@
 "use client"
 
-import { MoreVertical, Trash2 } from "lucide-react"
+import { MoreVertical, Pen, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -24,6 +24,7 @@ import {
 } from "@tanstack/react-table"
 
 import { Industry } from "@/services/industries"
+import { Link } from "react-router"
 
 interface IndustriesTableProps {
   data: Industry[]
@@ -59,12 +60,22 @@ const createColumns = (onDelete?: (industry: string) => void): ColumnDef<Industr
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
+                asChild
+              >
+                <Link to={`/industries/${industry.id}`}>
+                  <Pen className="mr-2 h-4 w-4" />
+                  Modifier
+                </Link>
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
                 onClick={() => onDelete?.(industry.id)}
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Supprimer
               </DropdownMenuItem>
+
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

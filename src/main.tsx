@@ -14,6 +14,7 @@ import { Tags } from "./pages/Tags"
 import { Companies } from "./pages/Companies"
 import { Industries } from "./pages/industries/Industries"
 import { CreateIndustry } from "./pages/industries/CreateIndustry"
+import { UpdateIndustry } from "./pages/industries/UpdateIndustry"
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -31,7 +32,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
               <Route path="companies" element={<Companies />} />
               <Route path="industries" element={<Industries />} />
               <Route path="industries/new" element={<CreateIndustry />} />
-              <Route path="industries/:id" element={<CreateIndustry />} />
+              <Route path="industries/:id" element={<UpdateIndustry />} />
             </Route>
           </Routes>
         </BrowserRouter>
