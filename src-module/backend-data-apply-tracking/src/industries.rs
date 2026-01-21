@@ -1,11 +1,12 @@
 use sqlx::{FromRow, SqlitePool};
+use uuid::Uuid; // Add this import
 
 #[derive(Debug, FromRow)]
 pub struct Industry {
   pub id: String,
   pub name: String,
   pub description: Option<String>,
-  pub is_default: bool,
+  // pub is_default: bool, // Removed
   pub created_at: String,
   pub updated_at: String,
   pub deleted_at: Option<String>,
@@ -84,4 +85,59 @@ pub async fn delete_industry(pool: &SqlitePool, id: &str) -> Result<bool, sqlx::
     .await?;
 
   Ok(result.rows_affected() > 0)
+}
+
+pub async fn create_industry(
+  pool: &SqlitePool,
+  id: Option<&str>, // Change to Option<&str>
+  name: &str,
+  description: Option<&str>,
+  // is_default: bool, // Removed
+) -> Result<Industry, sqlx::Error> {
+  let industry_id = match id {
+    Some(val) => val.to_string(),
+    None => Uuid::new_v4().to_string(), // Generate random GUID if not provided
+  };
+
+  sqlx::query(
+    "INSERT INTO industries (id, name, description, is_default, created_at, updated_at) 
+     VALUES (?, ?, ?, 0, datetime('now'), datetime('now'))"
+  )
+    .bind(&industry_id)
+    .bind(name)
+    .bind(description)
+    // .bind(is_default) // Removed
+    .execute(pool)
+    .await?;
+
+  // Fetch and return the created industry
+  get_industry_by_id(pool, &industry_id)
+    .await?
+    .ok_or_else(|| sqlx::Error::RowNotFound)
+}
+
+pub async fn update_industry(
+  pool: &SqlitePool,
+  id: &str,
+  name: &str,
+  description: Option<&str>,
+  // is_default: bool, // Removed
+) -> Result<Option<Industry>, sqlx::Error> {
+  let result = sqlx::query(
+    "UPDATE industries 
+     SET name = ?, description = ?, is_default = 0, updated_at = datetime('now') 
+     WHERE id = ? AND deleted_at IS NULL"
+  )
+    .bind(name)
+    .bind(description)
+    // .bind(is_default) // Removed
+    .bind(id)
+    .execute(pool)
+    .await?;
+
+  if result.rows_affected() > 0 {
+    get_industry_by_id(pool, id).await
+  } else {
+    Ok(None)
+  }
 }

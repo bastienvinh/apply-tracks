@@ -5,3 +5,4 @@ edition = "2024"
 
 [dependencies]
 sqlx = { version = "0.8.6", features = ["sqlite", "macros", "migrate", "runtime-tokio"] }
+uuid = { version = "1.19.0", features = ["v4"] }

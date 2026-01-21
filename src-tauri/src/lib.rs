@@ -10,14 +10,10 @@ fn resolve_db_path(app: &tauri::AppHandle) -> Result<PathBuf, Box<dyn Error>> {
   //   .path()
   //   .resolve("apply-track.sqlite3", BaseDirectory::AppData)?;
 
-  println!("App name: {:?}", app.package_info().name);
-
   let db_path = app
     .path()
     .app_data_dir()?
     .join("apply-track.sqlite3");
-
-  println!("Resolved DB path: {:?}", db_path);
 
   if let Some(parent) = db_path.parent() {
     fs::create_dir_all(parent)?;
@@ -55,7 +51,8 @@ pub fn run() {
             commands::industries::fetch_industries,
             commands::industries::fetch_industry,
             commands::industries::fetch_industries_paginated,
-            commands::industries::remove_industry
+            commands::industries::remove_industry,
+            commands::industries::add_industry
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

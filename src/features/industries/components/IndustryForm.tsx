@@ -1,10 +1,14 @@
-import { optional, z } from "zod"
+import { z } from "zod"
 import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { InputGroup, InputGroupAddon, InputGroupText, InputGroupTextarea } from "@/components/ui/input-group"
+import { useNavigate } from "react-router"
+import { industriesRoute } from "@/routes"
+import { IndustriesService } from "@/services/industries"
+import { useCreateIndustry } from "../hooks/use-industries-mutation"
 
 const formSchema = z.object({
   title: z.string().min(2, "Le titre doit contenir au moins 2 caractères"),
@@ -16,6 +20,9 @@ interface IndustryFormProps {
 }
 
 export function IndustryForm({ className }: IndustryFormProps) {
+  const navigate = useNavigate()
+  const { mutateAsync: createIndustry } = useCreateIndustry()
+
   const form = useForm({
     defaultValues: {
       title: "",
@@ -25,8 +32,14 @@ export function IndustryForm({ className }: IndustryFormProps) {
       onSubmit: formSchema
     },
     onSubmit: async ({ value }) => {
-      console.log("Creating industry:", value)
-      toast.success(`Secteur d'activité créé: ${value.title}`)
+      // console.log("Creating industry:", value)
+      try {
+        toast.success(`Secteur d'activité créé: ${value.title}`)
+        await createIndustry({ name: value.title, description: value.description ?? null })
+        navigate(industriesRoute())
+      } catch (error) {
+        toast.error("Une erreur est survenue lors de la création du secteur d'activité.")
+      }
     }
   })
 
@@ -92,7 +105,7 @@ export function IndustryForm({ className }: IndustryFormProps) {
     </FieldGroup>
 
     <div className="flex justify-end gap-2 mt-4">
-      <Button type="button">Retour</Button>
+      <Button onClick={() => navigate(industriesRoute())} type="button">Retour</Button>
       <Button type="submit">Enregistrer</Button>
     </div>
   </form>

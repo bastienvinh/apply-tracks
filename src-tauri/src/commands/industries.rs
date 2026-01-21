@@ -1,4 +1,4 @@
-use backend_data_apply_tracking::industries::{get_all_industries, get_industry_by_id, get_industries_paginated, delete_industry};
+use backend_data_apply_tracking::industries::{create_industry, delete_industry, get_all_industries, get_industries_paginated, get_industry_by_id};
 use backend_data_apply_tracking::DbPool;
 use serde::Serialize;
 
@@ -120,5 +120,24 @@ pub async fn remove_industry(
         Ok(true) => Ok(true),
         Ok(false) => Err(IndustryError::NotFound { id }),
         Err(e) => Err(IndustryError::DatabaseError { message: e.to_string() }),
+    }
+}
+
+#[tauri::command]
+pub async fn add_industry(
+    pool: tauri::State<'_, DbPool>,
+    name: String,
+    description: Option<String>,
+) -> Result<IndustryResponse, IndustryError> {
+    // Implementation for adding an industry goes here
+    // This is a placeholder and should be replaced with actual logic
+    match create_industry(&*pool, None, name.as_str(), description.as_deref()).await {
+        Ok(industry) => Ok(IndustryResponse {
+            id: industry.id,
+            name: industry.name,
+            description: industry.description,
+        }),
+        Err(e) => Err(IndustryError::DatabaseError { message: e.to_string() }),
+        
     }
 }
