@@ -1,7 +1,7 @@
 import { z } from "zod"
 import { useForm } from "@tanstack/react-form"
 import { toast } from "sonner"
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { InputGroup, InputGroupAddon, InputGroupText, InputGroupTextarea } from "@/components/ui/input-group"
@@ -11,7 +11,7 @@ import { useCreateIndustry, useUpdateIndustry } from "../hooks/use-industries-mu
 import { Industry } from "@/types/industry"
 
 const formSchema = z.object({
-  id: z.uuidv4().optional(),
+  id: z.uuidv4().optional().nullable(),
   title: z.string().min(2, "Le titre doit contenir au moins 2 caractères"),
   description: z.string().optional()
 })
@@ -96,14 +96,10 @@ export function IndustryForm({ className, data }: IndustryFormProps) {
                 />
                 <InputGroupAddon align="block-end">
                   <InputGroupText className="tabular-nums">
-                    {field.state.value?.length ?? "0"}/100 characters
+                    {field.state.value?.length ?? "0"}/100 caractères
                   </InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
-              <FieldDescription>
-                Include steps to reproduce, expected behavior, and what
-                actually happened.
-              </FieldDescription>
               {isInvalid && (
                 <FieldError errors={field.state.meta.errors} />
               )}
