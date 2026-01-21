@@ -1,8 +1,10 @@
 import { Pagination } from "@/components/Pagination"
+import { Button } from "@/components/ui/button"
 import { IndustriesTable } from "@/features/industries/components/IndustriesTable"
 import { useIndustries } from "@/features/industries/hooks/use-industries"
 import { useDeleteIndustry } from "@/features/industries/hooks/use-industries-mutation"
 import { usePagination } from "@/hooks/use-pagination"
+import { LucidePlus } from "lucide-react"
 import { toast } from "sonner"
 
 export function Industries() {
@@ -17,11 +19,11 @@ export function Industries() {
   }
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div>Chargement...</div>
   }
 
   if (error) {
-    return <div>Error loading industries.</div>
+    return <div>Erreur de chargement des secteurs d'activités.</div>
   }
 
   return (
@@ -31,6 +33,11 @@ export function Industries() {
         Contient tous les secteurs d'activités possibles pour les entreprises
       </p>
 
+      <div className="flex flex-col gap-2">
+        <div className="flex justify-end items-center">
+          <div className="flex gap-2"><Button variant={"outline"}><LucidePlus /> Ajouter</Button></div>
+        </div>
+
       <IndustriesTable data={paginatedData.data} onDelete={handleDeleteIndustry} />
       <Pagination 
         hasNextPage={paginatedData.has_next!}
@@ -38,6 +45,7 @@ export function Industries() {
         total={paginatedData.count}
         totalPages={paginatedData.total_pages!}
         />
+      </div>
     </div>
   )
 }
