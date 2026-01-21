@@ -5,10 +5,12 @@ import { useIndustries } from "@/features/industries/hooks/use-industries"
 import { useDeleteIndustry } from "@/features/industries/hooks/use-industries-mutation"
 import { usePagination } from "@/hooks/use-pagination"
 import { LucidePlus } from "lucide-react"
+import { useNavigate } from "react-router"
 import { toast } from "sonner"
 
 export function Industries() {
 
+  const navigate = useNavigate()
   const { page, limit } = usePagination({ defaultLimit: 10 })
   const { paginatedData, isLoading, error } = useIndustries({ page, limit })
   const { mutate: deleteIndustry } = useDeleteIndustry()
@@ -16,6 +18,10 @@ export function Industries() {
   function handleDeleteIndustry(id: string) {
     deleteIndustry(id)
     toast.success(`Suppression du secteur d'activité effectuée: ${id}`)
+  }
+
+  function handleNewIndustry() {
+    navigate('/industries/new')
   }
 
   if (isLoading) {
@@ -35,7 +41,7 @@ export function Industries() {
 
       <div className="flex flex-col gap-2">
         <div className="flex justify-end items-center">
-          <div className="flex gap-2"><Button variant={"outline"}><LucidePlus /> Ajouter</Button></div>
+          <div className="flex gap-2"><Button variant="outline" onClick={handleNewIndustry}><LucidePlus /> Ajouter</Button></div>
         </div>
 
       <IndustriesTable data={paginatedData.data} onDelete={handleDeleteIndustry} />
