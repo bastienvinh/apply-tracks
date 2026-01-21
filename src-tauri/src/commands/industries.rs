@@ -1,4 +1,4 @@
-use backend_data_apply_tracking::industries::{get_all_industries, get_industry_by_id, get_industries_paginated};
+use backend_data_apply_tracking::industries::{get_all_industries, get_industry_by_id, get_industries_paginated, delete_industry};
 use backend_data_apply_tracking::DbPool;
 use serde::Serialize;
 
@@ -107,6 +107,18 @@ pub async fn fetch_industries_paginated(
                 has_previous: result.has_previous,
             })
         }
+        Err(e) => Err(IndustryError::DatabaseError { message: e.to_string() }),
+    }
+}
+
+#[tauri::command]
+pub async fn remove_industry(
+    pool: tauri::State<'_, DbPool>,
+    id: String,
+) -> Result<bool, IndustryError> {
+    match delete_industry(&*pool, &id).await {
+        Ok(true) => Ok(true),
+        Ok(false) => Err(IndustryError::NotFound { id }),
         Err(e) => Err(IndustryError::DatabaseError { message: e.to_string() }),
     }
 }

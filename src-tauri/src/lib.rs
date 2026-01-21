@@ -10,11 +10,14 @@ fn resolve_db_path(app: &tauri::AppHandle) -> Result<PathBuf, Box<dyn Error>> {
   //   .path()
   //   .resolve("apply-track.sqlite3", BaseDirectory::AppData)?;
 
+  println!("App name: {:?}", app.package_info().name);
+
   let db_path = app
     .path()
-    .document_dir()?
-    .join("ApplyTrack")
+    .app_data_dir()?
     .join("apply-track.sqlite3");
+
+  println!("Resolved DB path: {:?}", db_path);
 
   if let Some(parent) = db_path.parent() {
     fs::create_dir_all(parent)?;
@@ -31,6 +34,7 @@ pub fn run() {
             tauri::async_runtime::block_on(async move {
                 let app_handle = app.handle();
                 let db_path = resolve_db_path(&app_handle)?;
+                println!("Database path: {:?}", db_path);
                 let pool = init_pool_and_migrate(db_path.to_string_lossy().to_string()).await?;
                 
                 // Seed the database if it's empty
@@ -50,7 +54,8 @@ pub fn run() {
             commands::companies::fetch_company,
             commands::industries::fetch_industries,
             commands::industries::fetch_industry,
-            commands::industries::fetch_industries_paginated
+            commands::industries::fetch_industries_paginated,
+            commands::industries::remove_industry
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

@@ -1,12 +1,20 @@
 import { Pagination } from "@/components/Pagination"
 import { IndustriesTable } from "@/features/industries/components/IndustriesTable"
 import { useIndustries } from "@/features/industries/hooks/use-industries"
+import { useDeleteIndustry } from "@/features/industries/hooks/use-industries-mutation"
 import { usePagination } from "@/hooks/use-pagination"
+import { toast } from "sonner"
 
 export function Industries() {
 
   const { page, limit } = usePagination({ defaultLimit: 10 })
   const { paginatedData, isLoading, error } = useIndustries({ page, limit })
+  const { mutate: deleteIndustry } = useDeleteIndustry()
+
+  function handleDeleteIndustry(id: string) {
+    deleteIndustry(id)
+    toast.success(`Suppression du secteur d'activité effectuée: ${id}`)
+  }
 
   if (isLoading) {
     return <div>Loading...</div>
@@ -23,12 +31,12 @@ export function Industries() {
         Contient tous les secteurs d'activités possibles pour les entreprises
       </p>
 
-      <IndustriesTable data={paginatedData.data} />
+      <IndustriesTable data={paginatedData.data} onDelete={handleDeleteIndustry} />
       <Pagination 
-          hasNextPage={paginatedData.has_next!}
-          hasPrevPage={paginatedData.has_previous!}
-          total={paginatedData.count}
-          totalPages={paginatedData.total_pages!}
+        hasNextPage={paginatedData.has_next!}
+        hasPrevPage={paginatedData.has_previous!}
+        total={paginatedData.count}
+        totalPages={paginatedData.total_pages!}
         />
     </div>
   )

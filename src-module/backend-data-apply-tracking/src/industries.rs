@@ -8,6 +8,7 @@ pub struct Industry {
   pub is_default: bool,
   pub created_at: String,
   pub updated_at: String,
+  pub deleted_at: Option<String>,
 }
 
 #[derive(Debug)]
@@ -22,7 +23,7 @@ pub struct PaginatedResult<T> {
 }
 
 pub async fn get_all_industries(pool: &SqlitePool) -> Result<Vec<Industry>, sqlx::Error> {
-  sqlx::query_as::<_, Industry>("SELECT * FROM industries")
+  sqlx::query_as::<_, Industry>("SELECT * FROM industries WHERE deleted_at IS NULL")
     .fetch_all(pool)
     .await
 }
@@ -33,9 +34,10 @@ pub async fn get_industries_paginated(
   per_page: i64,
 ) -> Result<PaginatedResult<Industry>, sqlx::Error> {
   // Get total count
-  let count: (i64,) = sqlx::query_as("SELECT COUNT(*) FROM industries")
+  let count: (i64,) = sqlx::query_as("SELECT COUNT(*) FROM industries WHERE deleted_at IS NULL")
     .fetch_one(pool)
     .await?;
+
   let count = count.0;
 
   // Calculate offset
@@ -43,7 +45,7 @@ pub async fn get_industries_paginated(
 
   // Fetch paginated data
   let data = sqlx::query_as::<_, Industry>(
-    "SELECT * FROM industries ORDER BY created_at DESC LIMIT ? OFFSET ?"
+    "SELECT * FROM industries WHERE deleted_at IS NULL ORDER BY created_at DESC LIMIT ? OFFSET ?"
   )
     .bind(per_page)
     .bind(offset)
@@ -71,4 +73,15 @@ pub async fn get_industry_by_id(pool: &SqlitePool, id: &str) -> Result<Option<In
     .bind(id)
     .fetch_optional(pool)
     .await
+}
+
+pub async fn delete_industry(pool: &SqlitePool, id: &str) -> Result<bool, sqlx::Error> {
+  let result = sqlx::query(
+    "UPDATE industries SET deleted_at = datetime('now') WHERE id = ? AND deleted_at IS NULL"
+  )
+    .bind(id)
+    .execute(pool)
+    .await?;
+
+  Ok(result.rows_affected() > 0)
 }

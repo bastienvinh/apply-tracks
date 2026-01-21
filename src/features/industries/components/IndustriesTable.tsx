@@ -27,10 +27,10 @@ import { Industry } from "@/services/industries"
 
 interface IndustriesTableProps {
   data: Industry[]
-  onDelete?: (industry: Industry) => void
+  onDelete?: (industry: string) => void
 }
 
-const createColumns = (onDelete?: (industry: Industry) => void): ColumnDef<Industry>[] => [
+const createColumns = (onDelete?: (industry: string) => void): ColumnDef<Industry>[] => [
   {
     accessorKey: "id",
     header: "Code",
@@ -60,7 +60,7 @@ const createColumns = (onDelete?: (industry: Industry) => void): ColumnDef<Indus
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
-                onClick={() => onDelete?.(industry)}
+                onClick={() => onDelete?.(industry.id)}
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Supprimer

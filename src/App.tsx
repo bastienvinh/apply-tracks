@@ -5,6 +5,7 @@ import { AppSideBar } from "./components/AppSideBar"
 import { SidebarInset } from "./components/ui/sidebar"
 import { SidebarHeader } from "./components/SidebarHeader"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { Toaster } from "./components/ui/sonner"
 
 const queryClient = new QueryClient()
 
@@ -25,6 +26,7 @@ function App() {
               </div>
             </div>
           </SidebarInset>
+          <Toaster />
         </div>
       </DetectScreensize>  
     </QueryClientProvider>

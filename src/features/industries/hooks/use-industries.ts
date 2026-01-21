@@ -18,6 +18,7 @@ export function useIndustries(options?: UseIndustriesOptions) {
       : IndustriesService.getAll(),
     placeholderData: isPaginated ? keepPreviousData : undefined,
     enabled,
+    staleTime: 2 * 60 * 1000, // 2 minutes
   });
 
   return {

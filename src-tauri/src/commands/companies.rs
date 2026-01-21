@@ -1,5 +1,4 @@
 use backend_data_apply_tracking::companies::{get_all_companies, get_company_by_id };
-use backend_data_apply_tracking::industries::{get_all_industries, get_industry_by_id};
 use backend_data_apply_tracking::DbPool;
 use serde::Serialize;
 
@@ -11,13 +10,6 @@ pub struct CompanyResponse {
     pub location: Option<String>,
     pub industry_id: Option<String>,
     pub notes: Option<String>,
-}
-
-#[derive(Serialize)]
-pub struct IndustryResponse {
-    pub id: String,
-    pub name: String,
-    pub description: Option<String>,
 }
 
 #[tauri::command]
