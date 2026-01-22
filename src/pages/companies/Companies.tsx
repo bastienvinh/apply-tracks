@@ -3,7 +3,9 @@ import { Button } from "@/components/ui/button"
 import { CompaniesDataTable } from "@/features/companies/components/CompaniesDataTable"
 import { useCompanies } from "@/features/companies/hooks/use-companies"
 import { usePagination } from "@/hooks/use-pagination"
+import { newCompanyRoute } from "@/routes"
 import { LucidePlus } from "lucide-react"
+import { Link } from "react-router"
 
 export function Companies() {
 
@@ -18,7 +20,14 @@ export function Companies() {
 
       <div className="flex flex-col gap-2">
         <div className="flex justify-end items-center">
-          <div className="flex gap-2"><Button variant="outline"><LucidePlus /> Ajouter</Button></div>
+          <div className="flex gap-2">
+            <Button variant="outline" asChild>
+              <Link to={newCompanyRoute()} className="flex items-center gap-2">
+                <LucidePlus />
+                Ajouter
+              </Link>
+            </Button>
+            </div>
         </div>
 
       <CompaniesDataTable data={paginatedData.data} />

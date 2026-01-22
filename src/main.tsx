@@ -15,6 +15,8 @@ import { Companies } from "./pages/companies/Companies"
 import { Industries } from "./pages/industries/Industries"
 import { CreateIndustry } from "./pages/industries/CreateIndustry"
 import { UpdateIndustry } from "./pages/industries/UpdateIndustry"
+import { CreateCompany } from "./pages/companies/CreateCompany"
+import { UpdateCompany } from "./pages/companies/UpdateCompany"
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -30,6 +32,8 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
               <Route path="feedbacks" element={<Feedbacks />} />
               <Route path="tags" element={<Tags />} />
               <Route path="companies" element={<Companies />} />
+              <Route path="companies/new" element={<CreateCompany />} />
+              <Route path="companies/:id" element={<UpdateCompany />} />
               <Route path="industries" element={<Industries />} />
               <Route path="industries/new" element={<CreateIndustry />} />
               <Route path="industries/:id" element={<UpdateIndustry />} />

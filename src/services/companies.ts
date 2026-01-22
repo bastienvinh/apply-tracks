@@ -1,12 +1,14 @@
 import { invoke } from "@tauri-apps/api/core"
 
+export type CompanySize = 'startup' | 'small' | 'medium' | 'large' | 'enterprise'
+
 export interface Company {
   id: string
   name: string
   website: string | null
   location: string | null
   notes: string | null
-  company_size: 'startup' | 'small' | 'medium' | 'large' | 'enterprise'
+  company_size: CompanySize
   glassdoor_url: string | null
 }
 
