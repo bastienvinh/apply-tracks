@@ -21,13 +21,12 @@ CREATE TABLE IF NOT EXISTS industries (
 );
 
 -- ============
--- Companies
+-- Companies (remove industry_id)
 -- ============
 CREATE TABLE IF NOT EXISTS companies (
   id            TEXT PRIMARY KEY,
   name          TEXT NOT NULL,
   website       TEXT,
-  industry_id   TEXT,
   location      TEXT,
   company_size  TEXT CHECK (company_size IN ('startup', 'small', 'medium', 'large', 'enterprise')),
   tech_stack    TEXT, -- JSON array of technologies used
@@ -36,8 +35,19 @@ CREATE TABLE IF NOT EXISTS companies (
   is_default    INTEGER NOT NULL DEFAULT 0, -- 0 = false, 1 = true
   created_at    TEXT NOT NULL, -- ISO8601
   updated_at    TEXT NOT NULL, -- ISO8601
-  deleted_at    TEXT,          -- ISO8601, NULL if not deleted
-  FOREIGN KEY (industry_id) REFERENCES industries(id) ON DELETE SET NULL
+  deleted_at    TEXT           -- ISO8601, NULL if not deleted
+);
+
+-- ============
+-- Company-Industries (many-to-many)
+-- ============
+CREATE TABLE IF NOT EXISTS company_industries (
+  company_id   TEXT NOT NULL,
+  industry_id  TEXT NOT NULL,
+  deleted_at   TEXT, -- ISO8601, NULL if not deleted
+  PRIMARY KEY (company_id, industry_id),
+  FOREIGN KEY (company_id) REFERENCES companies(id) ON DELETE CASCADE,
+  FOREIGN KEY (industry_id) REFERENCES industries(id) ON DELETE CASCADE
 );
 
 -- ============

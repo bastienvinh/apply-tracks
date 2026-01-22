@@ -48,6 +48,7 @@ pub fn run() {
             systeminfo::get_system_info,
             commands::companies::fetch_companies,
             commands::companies::fetch_company,
+            commands::companies::fetch_companies_paginated,
             commands::industries::fetch_industries,
             commands::industries::fetch_industry,
             commands::industries::fetch_industries_paginated,

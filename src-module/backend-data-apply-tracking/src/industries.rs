@@ -1,5 +1,6 @@
 use sqlx::{FromRow, SqlitePool};
-use uuid::Uuid; // Add this import
+use uuid::Uuid;
+use crate::app_types::PaginatedResult;
 
 #[derive(Debug, FromRow)]
 pub struct Industry {
@@ -10,17 +11,6 @@ pub struct Industry {
   pub created_at: String,
   pub updated_at: String,
   pub deleted_at: Option<String>,
-}
-
-#[derive(Debug)]
-pub struct PaginatedResult<T> {
-  pub data: Vec<T>,
-  pub count: i64,
-  pub current_page: i64,
-  pub per_page: i64,
-  pub total_pages: i64,
-  pub has_next: bool,
-  pub has_previous: bool,
 }
 
 pub async fn get_all_industries(pool: &SqlitePool) -> Result<Vec<Industry>, sqlx::Error> {

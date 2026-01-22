@@ -1,15 +1,14 @@
-import { IndustriesService, PaginatedIndustries } from '@/services/industries';
-import { useQuery, keepPreviousData } from '@tanstack/react-query';
+import { IndustriesService, PaginatedIndustries } from '@/services/industries'
+import { useQuery, keepPreviousData } from '@tanstack/react-query'
 
 interface UseIndustriesOptions {
-  page?: number;
-  limit?: number;
-  enabled?: boolean;
+  page?: number
+  limit?: number
 }
 
 export function useIndustries(options?: UseIndustriesOptions) {
-  const isPaginated = options?.page !== undefined || options?.limit !== undefined;
-  const { page = 1, limit = 10, enabled = true } = options ?? {};
+  const isPaginated = options?.page !== undefined || options?.limit !== undefined
+  const { page = 1, limit = 10 } = options ?? {}
 
   const { data, error, isLoading, isFetching } = useQuery({
     queryKey: isPaginated ? ['industries', { page, limit }] : ['industries'],
@@ -17,9 +16,9 @@ export function useIndustries(options?: UseIndustriesOptions) {
       ? IndustriesService.getPaginated(page, limit)
       : IndustriesService.getAll(),
     placeholderData: isPaginated ? keepPreviousData : undefined,
-    enabled,
+    enabled: true,
     staleTime: 2 * 60 * 1000, // 2 minutes
-  });
+  })
 
   return {
     paginatedData: data ?? ({ count: 0, data: [] } as PaginatedIndustries),
@@ -32,7 +31,7 @@ export function useIndustries(options?: UseIndustriesOptions) {
     isLoading,
     isFetching,
     error,
-  };
+  }
 }
 
 export function useIndustry(id: string, enabled = true) {
@@ -41,12 +40,12 @@ export function useIndustry(id: string, enabled = true) {
     queryFn: () => IndustriesService.getById(id),
     enabled: enabled && !!id,
     staleTime: 2 * 60 * 1000, // 2 minutes
-  });
+  })
 
   return {
     data,
     isLoading,
     isFetching,
     error,
-  };
+  }
 }

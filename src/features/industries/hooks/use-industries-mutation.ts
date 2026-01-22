@@ -34,8 +34,9 @@ export function useUpdateIndustry() {
 
   return useMutation({
     mutationFn: (payload: { id: string } & IndustryCreatePayload) => IndustriesService.update(payload),
-    onSuccess: () => {
+    onSuccess: (payload) => {
       queryClient.invalidateQueries({ queryKey: ['industries'] })
+      queryClient.invalidateQueries({ queryKey: ['industry', payload.id] })
     },
     onError: (error) => {
       console.error("Error updating industry:", error)

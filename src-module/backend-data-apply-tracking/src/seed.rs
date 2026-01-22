@@ -7,6 +7,7 @@ pub async fn is_database_seeded(pool: &SqlitePool) -> Result<bool, Box<dyn Error
         .fetch_one(pool)
         .await?;
     
+    println!("Database has {} companies", count.0);
     Ok(count.0 > 0)
 }
 

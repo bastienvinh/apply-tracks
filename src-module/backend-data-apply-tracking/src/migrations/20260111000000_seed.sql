@@ -19,14 +19,41 @@ VALUES
 -- ============
 -- Companies
 -- ============
-INSERT INTO companies (id, name, website, industry_id, location, notes, is_default, created_at, updated_at)
+INSERT INTO companies (id, name, website, location, notes, is_default, created_at, updated_at)
 VALUES
-  ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d', 'Non spécifiée', NULL, 'c7e6e3a2-7f2a-4a9a-9b2d-1f1e5b8e1a01', NULL, 'Entreprise par défaut', 1, '2026-01-01T00:00:00Z', '2026-01-01T00:00:00Z'),
-  ('2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e', 'Capgemini', 'https://www.capgemini.com', 'b4c3d2e1-7f8a-4b9c-0d1e-2f3a4b5c6d7e', 'Paris, France', 'Leader mondial du conseil et des services informatiques', 0, '2026-01-01T10:00:00Z', '2026-01-01T10:00:00Z'),
-  ('3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f', 'Doctolib', 'https://www.doctolib.fr', 'd6e5f4a3-9b0c-4d1e-2f3a-4b5c6d7e8f9a', 'Paris, France', 'Licorne française spécialisée dans la e-santé', 0, '2026-01-02T10:00:00Z', '2026-01-02T10:00:00Z'),
-  ('4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a', 'BlaBlaCar', 'https://www.blablacar.fr', 'f8a7b6c5-1d2e-4f3a-4b5c-6d7e8f9a0b1c', 'Paris, France', 'Plateforme de covoiturage leader en Europe', 0, '2026-01-03T10:00:00Z', '2026-01-03T10:00:00Z'),
-  ('5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b', 'OVHcloud', 'https://www.ovhcloud.com', 'e2b1c3d4-5f6a-4b7c-8d9e-0a1b2c3d4e5f', 'Roubaix, France', 'Hébergeur cloud européen majeur', 0, '2026-01-04T10:00:00Z', '2026-01-04T10:00:00Z'),
-  ('6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c', 'Société Générale', 'https://www.societegenerale.com', 'a3b2c1d4-6e7f-4a8b-9c0d-1e2f3a4b5c6d', 'Paris La Défense, France', 'Grande banque française', 0, '2026-01-05T10:00:00Z', '2026-01-05T10:00:00Z');
+  ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d', 'Non spécifiée', NULL, NULL, 'Entreprise par défaut', 1, '2026-01-01T00:00:00Z', '2026-01-01T00:00:00Z'),
+  ('2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e', 'Capgemini', 'https://www.capgemini.com', 'Paris, France', 'Leader mondial du conseil et des services informatiques', 0, '2026-01-01T10:00:00Z', '2026-01-01T10:00:00Z'),
+  ('3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f', 'Doctolib', 'https://www.doctolib.fr', 'Paris, France', 'Licorne française spécialisée dans la e-santé', 0, '2026-01-02T10:00:00Z', '2026-01-02T10:00:00Z'),
+  ('4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a', 'BlaBlaCar', 'https://www.blablacar.fr', 'Paris, France', 'Plateforme de covoiturage leader en Europe', 0, '2026-01-03T10:00:00Z', '2026-01-03T10:00:00Z'),
+  ('5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b', 'OVHcloud', 'https://www.ovhcloud.com', 'Roubaix, France', 'Hébergeur cloud européen majeur', 0, '2026-01-04T10:00:00Z', '2026-01-04T10:00:00Z'),
+  ('6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c', 'Société Générale', 'https://www.societegenerale.com', 'Paris La Défense, France', 'Grande banque française', 0, '2026-01-05T10:00:00Z', '2026-01-05T10:00:00Z');
+
+-- ============
+-- Company-Industries (many-to-many)
+-- ============
+INSERT INTO company_industries (company_id, industry_id)
+VALUES
+  -- Non spécifiée: Autre
+  ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d', 'c7e6e3a2-7f2a-4a9a-9b2d-1f1e5b8e1a01'),
+
+  -- Capgemini: Conseil, Technologie
+  ('2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e', 'b4c3d2e1-7f8a-4b9c-0d1e-2f3a4b5c6d7e'),
+  ('2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e', 'e2b1c3d4-5f6a-4b7c-8d9e-0a1b2c3d4e5f'),
+
+  -- Doctolib: Santé, Technologie
+  ('3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f', 'd6e5f4a3-9b0c-4d1e-2f3a-4b5c6d7e8f9a'),
+  ('3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f', 'e2b1c3d4-5f6a-4b7c-8d9e-0a1b2c3d4e5f'),
+
+  -- BlaBlaCar: Transport, Technologie
+  ('4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a', 'f8a7b6c5-1d2e-4f3a-4b5c-6d7e8f9a0b1c'),
+  ('4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a', 'e2b1c3d4-5f6a-4b7c-8d9e-0a1b2c3d4e5f'),
+
+  -- OVHcloud: Technologie, Énergie
+  ('5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b', 'e2b1c3d4-5f6a-4b7c-8d9e-0a1b2c3d4e5f'),
+  ('5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b', 'e7f6a5b4-0c1d-4e2f-3a4b-5c6d7e8f9a0b'),
+
+  -- Société Générale: Finance
+  ('6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c', 'a3b2c1d4-6e7f-4a8b-9c0d-1e2f3a4b5c6d');
 
 -- ============
 -- Contacts
