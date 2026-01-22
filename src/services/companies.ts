@@ -28,6 +28,7 @@ export class CompaniesService {
   public static getAllPaginated = async (page: number, perPage: number): Promise<PaginatedCompanies> =>
     await invoke("fetch_companies_paginated", { page, perPage })
   public static getById = async (id: string): Promise<Company | null> => await invoke("fetch_company", { id })
+  public static deleteById = async (id: string): Promise<boolean> => await invoke("remove_company", { id })
 }
 
 

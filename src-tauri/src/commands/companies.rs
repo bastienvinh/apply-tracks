@@ -1,4 +1,4 @@
-use backend_data_apply_tracking::companies::{get_all_companies, get_company_by_id, get_companies_paginated };
+use backend_data_apply_tracking::companies::{delete_company, get_all_companies, get_companies_paginated, get_company_by_id };
 use backend_data_apply_tracking::DbPool;
 use serde::Serialize;
 
@@ -20,6 +20,15 @@ pub struct PaginatedCompaniesResult {
     pub total_pages: i64,
     pub has_next: bool,
     pub has_previous: bool,
+}
+
+#[derive(Debug, Serialize)]
+#[serde(tag = "type", content = "data")]
+#[allow(dead_code)]
+pub enum CompanyError {
+	NotFound { id: String },
+	DatabaseError { message: String },
+	EmptyTable,
 }
 
 #[tauri::command]
@@ -84,4 +93,17 @@ pub async fn fetch_companies_paginated(
             Err(e.to_string())
         },
     }
+}
+
+
+#[tauri::command]
+pub async fn remove_company(
+	pool: tauri::State<'_, DbPool>,
+	id: String,
+) -> Result<bool, CompanyError> {
+	match delete_company(&*pool, &id).await {
+		Ok(true) => Ok(true),
+		Ok(false) => Err(CompanyError::NotFound { id }),
+		Err(e) => Err(CompanyError::DatabaseError { message: e.to_string() }),
+	}
 }

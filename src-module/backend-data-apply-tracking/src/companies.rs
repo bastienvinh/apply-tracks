@@ -62,3 +62,14 @@ pub async fn get_company_by_id(pool: &SqlitePool, id: &str) -> Result<Option<Com
     .fetch_optional(pool)
     .await
 }
+
+pub async fn delete_company(pool: &SqlitePool, id: &str) -> Result<bool, sqlx::Error> {
+  let result = sqlx::query(
+    "UPDATE companies SET deleted_at = datetime('now') WHERE id = ? AND deleted_at IS NULL"
+  )
+    .bind(id)
+    .execute(pool)
+    .await?;
+
+  Ok(result.rows_affected() > 0)
+}

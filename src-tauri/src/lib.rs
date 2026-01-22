@@ -49,6 +49,7 @@ pub fn run() {
             commands::companies::fetch_companies,
             commands::companies::fetch_company,
             commands::companies::fetch_companies_paginated,
+            commands::companies::remove_company,
             commands::industries::fetch_industries,
             commands::industries::fetch_industry,
             commands::industries::fetch_industries_paginated,

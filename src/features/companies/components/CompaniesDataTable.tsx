@@ -26,12 +26,13 @@ import {
 import { Link } from "react-router"
 import { Company } from "@/services/companies"
 import { companyDetailRoute } from "@/routes"
+import { useDeleteCompany } from "../hooks/use-companies-mutation"
 
 interface CompaniesTableProps {
   data: Company[]
 }
 
-const createColumns = (): ColumnDef<Company>[] => [
+const createColumns = (onDelete: (id: string) => void): ColumnDef<Company>[] => [
   {
     accessorKey: "id",
     header: "Code",
@@ -78,7 +79,7 @@ const createColumns = (): ColumnDef<Company>[] => [
 
               <DropdownMenuItem
                 className="text-destructive focus:text-destructive"
-                // onClick={() => onDelete?.(industry.id)}
+                onClick={() => onDelete?.(company.id)}
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Supprimer
@@ -93,7 +94,8 @@ const createColumns = (): ColumnDef<Company>[] => [
 ]
 
 export function CompaniesDataTable({ data }: CompaniesTableProps) {
-  const columns = createColumns()
+  const { mutate: deleteCompany } = useDeleteCompany()
+  const columns = createColumns(deleteCompany)
 
   const table = useReactTable({
     data,
