@@ -29,7 +29,6 @@ CREATE TABLE IF NOT EXISTS companies (
   website       TEXT,
   location      TEXT,
   company_size  TEXT CHECK (company_size IN ('startup', 'small', 'medium', 'large', 'enterprise')),
-  tech_stack    TEXT, -- JSON array of technologies used
   glassdoor_url TEXT,
   notes         TEXT,
   is_default    INTEGER NOT NULL DEFAULT 0, -- 0 = false, 1 = true

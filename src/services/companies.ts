@@ -6,6 +6,8 @@ export interface Company {
   website: string | null
   location: string | null
   notes: string | null
+  company_size: 'startup' | 'small' | 'medium' | 'large' | 'enterprise'
+  glassdoor_url: string | null
 }
 
 export interface ResponseCompanies {
