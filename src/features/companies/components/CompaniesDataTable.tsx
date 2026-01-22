@@ -46,8 +46,8 @@ const createColumns = (onDelete: (id: string) => void): ColumnDef<Company>[] => 
     header: "Site web",
   },
   {
-    accessorKey: "location",
-    header: "Localisation",
+    accessorKey: "city",
+    header: "Ville",
   },
   {
     accessorKey: "notes",

@@ -6,10 +6,22 @@ export interface Company {
   id: string
   name: string
   website: string | null
-  location: string | null
-  notes: string | null
+  address_line1: string | null
+  address_line2: string | null
+  postal_code: string | null
+  city: string | null
+  state_province: string | null
+  country: string | null
   company_size: CompanySize
   glassdoor_url: string | null
+  linkedin_url: string | null
+  twitter_url: string | null
+  siret: string | null
+  notes: string | null
+  is_default: boolean
+  created_at: string
+  updated_at: string
+  deleted_at: string | null
 }
 
 export interface ResponseCompanies {

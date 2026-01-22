@@ -6,11 +6,24 @@ pub struct Company {
   pub id: String,
   pub name: String,
   pub website: Option<String>,
-  pub location: Option<String>,
+  // Structured postal address
+  pub address_line1: Option<String>,
+  pub address_line2: Option<String>,
+  pub postal_code: Option<String>,
+  pub city: Option<String>,
+  pub state_province: Option<String>,
+  pub country: Option<String>,
+  // company_size stored as text in DB: 'startup' | 'small' | 'medium' | 'large' | 'enterprise'
+  pub company_size: Option<String>,
+  pub glassdoor_url: Option<String>,
+  pub linkedin_url: Option<String>,
+  pub twitter_url: Option<String>,
+  pub siret: Option<String>,
   pub notes: Option<String>,
   pub is_default: bool,
   pub created_at: String,
   pub updated_at: String,
+  pub deleted_at: Option<String>,
 }
 
 pub async fn get_all_companies(pool: &SqlitePool) -> Result<Vec<Company>, sqlx::Error> {

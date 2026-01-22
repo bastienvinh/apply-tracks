@@ -24,17 +24,28 @@ CREATE TABLE IF NOT EXISTS industries (
 -- Companies (remove industry_id)
 -- ============
 CREATE TABLE IF NOT EXISTS companies (
-  id            TEXT PRIMARY KEY,
-  name          TEXT NOT NULL,
-  website       TEXT,
-  location      TEXT,
-  company_size  TEXT CHECK (company_size IN ('startup', 'small', 'medium', 'large', 'enterprise')),
-  glassdoor_url TEXT,
-  notes         TEXT,
-  is_default    INTEGER NOT NULL DEFAULT 0, -- 0 = false, 1 = true
-  created_at    TEXT NOT NULL, -- ISO8601
-  updated_at    TEXT NOT NULL, -- ISO8601
-  deleted_at    TEXT           -- ISO8601, NULL if not deleted
+  id              TEXT PRIMARY KEY,
+  name            TEXT NOT NULL,
+  website         TEXT,
+  -- Structured postal address
+  address_line1   TEXT,
+  address_line2   TEXT,
+  postal_code     TEXT,
+  city            TEXT,
+  state_province  TEXT,
+  country         TEXT,
+  company_size    TEXT CHECK (company_size IN ('startup', 'small', 'medium', 'large', 'enterprise')),
+  glassdoor_url   TEXT,
+  linkedin_url    TEXT,
+  twitter_url     TEXT, -- X / Twitter handle or full URL
+  siret           TEXT, -- French SIRET (14 digits)
+  notes           TEXT,
+  is_default      INTEGER NOT NULL DEFAULT 0, -- 0 = false, 1 = true
+  created_at      TEXT NOT NULL, -- ISO8601
+  updated_at      TEXT NOT NULL, -- ISO8601
+  deleted_at      TEXT           -- ISO8601, NULL if not deleted
+  -- Validate SIRET: null or exactly 14 digits
+  , CHECK (siret IS NULL OR (length(siret) = 14 AND siret GLOB '[0-9]*'))
 );
 
 -- ============

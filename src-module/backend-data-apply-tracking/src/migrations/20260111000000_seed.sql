@@ -19,14 +19,14 @@ VALUES
 -- ============
 -- Companies
 -- ============
-INSERT INTO companies (id, name, website, location, notes, is_default, created_at, updated_at)
+INSERT INTO companies (id, name, website, address_line1, address_line2, postal_code, city, state_province, country, linkedin_url, twitter_url, siret, notes, is_default, created_at, updated_at)
 VALUES
-  ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d', 'Non spécifiée', NULL, NULL, 'Entreprise par défaut', 1, '2026-01-01T00:00:00Z', '2026-01-01T00:00:00Z'),
-  ('2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e', 'Capgemini', 'https://www.capgemini.com', 'Paris, France', 'Leader mondial du conseil et des services informatiques', 0, '2026-01-01T10:00:00Z', '2026-01-01T10:00:00Z'),
-  ('3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f', 'Doctolib', 'https://www.doctolib.fr', 'Paris, France', 'Licorne française spécialisée dans la e-santé', 0, '2026-01-02T10:00:00Z', '2026-01-02T10:00:00Z'),
-  ('4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a', 'BlaBlaCar', 'https://www.blablacar.fr', 'Paris, France', 'Plateforme de covoiturage leader en Europe', 0, '2026-01-03T10:00:00Z', '2026-01-03T10:00:00Z'),
-  ('5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b', 'OVHcloud', 'https://www.ovhcloud.com', 'Roubaix, France', 'Hébergeur cloud européen majeur', 0, '2026-01-04T10:00:00Z', '2026-01-04T10:00:00Z'),
-  ('6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c', 'Société Générale', 'https://www.societegenerale.com', 'Paris La Défense, France', 'Grande banque française', 0, '2026-01-05T10:00:00Z', '2026-01-05T10:00:00Z');
+  ('1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d', 'Non spécifiée', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Entreprise par défaut', 1, '2026-01-01T00:00:00Z', '2026-01-01T00:00:00Z'),
+  ('2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e', 'Capgemini', 'https://www.capgemini.com', NULL, NULL, NULL, 'Paris', NULL, 'France', 'https://www.linkedin.com/company/capgemini', 'https://twitter.com/Capgemini', NULL, 'Leader mondial du conseil et des services informatiques', 0, '2026-01-01T10:00:00Z', '2026-01-01T10:00:00Z'),
+  ('3c4d5e6f-7a8b-9c0d-1e2f-3a4b5c6d7e8f', 'Doctolib', 'https://www.doctolib.fr', NULL, NULL, NULL, 'Paris', NULL, 'France', 'https://www.linkedin.com/company/doctolib', 'https://twitter.com/Doctolib', NULL, 'Licorne française spécialisée dans la e-santé', 0, '2026-01-02T10:00:00Z', '2026-01-02T10:00:00Z'),
+  ('4d5e6f7a-8b9c-0d1e-2f3a-4b5c6d7e8f9a', 'BlaBlaCar', 'https://www.blablacar.fr', NULL, NULL, NULL, 'Paris', NULL, 'France', 'https://www.linkedin.com/company/blablacar', 'https://twitter.com/blablacar', NULL, 'Plateforme de covoiturage leader en Europe', 0, '2026-01-03T10:00:00Z', '2026-01-03T10:00:00Z'),
+  ('5e6f7a8b-9c0d-1e2f-3a4b-5c6d7e8f9a0b', 'OVHcloud', 'https://www.ovhcloud.com', NULL, NULL, NULL, 'Roubaix', NULL, 'France', 'https://www.linkedin.com/company/ovh', 'https://twitter.com/ovhcloud', NULL, 'Hébergeur cloud européen majeur', 0, '2026-01-04T10:00:00Z', '2026-01-04T10:00:00Z'),
+  ('6f7a8b9c-0d1e-2f3a-4b5c-6d7e8f9a0b1c', 'Société Générale', 'https://www.societegenerale.com', NULL, NULL, NULL, 'Paris La Défense', NULL, 'France', 'https://www.linkedin.com/company/societegenerale', 'https://twitter.com/SocieteGenerale', NULL, 'Grande banque française', 0, '2026-01-05T10:00:00Z', '2026-01-05T10:00:00Z');
 
 -- ============
 -- Company-Industries (many-to-many)
