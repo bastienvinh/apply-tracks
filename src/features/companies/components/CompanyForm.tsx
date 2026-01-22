@@ -13,11 +13,20 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 export const companySchema = z.object({
   id: z.uuidv4().optional().nullable(),
   name: z.string().min(2, "Le nom doit contenir au moins 2 caractères"),
-  website: z.string().optional().nullable(),
-  location: z.string().optional().nullable(),
-  notes: z.string().nullable(),
+  website: z.url().optional().nullable(),
+  address_line1: z.string().optional().nullable(),
+  address_line2: z.string().optional().nullable(),
+  postal_code: z.string().optional().nullable(),
+  city: z.string().optional().nullable(),
+  state_province: z.string().optional().nullable(),
+  country: z.string().optional().nullable(),
   company_size: z.enum(['startup', 'small', 'medium', 'large', 'enterprise']),
-  glassdoor_url: z.string().nullable(),
+  glassdoor_url: z.url().optional().nullable(),
+  linkedin_url: z.url().optional().nullable(),
+  twitter_url: z.url().optional().nullable(),
+  siret: z.string().optional().nullable(),
+  notes: z.string().optional().nullable(),
+  is_default: z.boolean().optional().nullable(),
 })
 
 interface CompanyFormProps {
@@ -33,11 +42,20 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
   const form = useForm({
     defaultValues: {
       name: data?.name ?? "",
-      website: data?.website ?? "",
-      location: data?.location ?? "",
-      notes: data?.notes ?? "",
+      website: data?.website ?? null,
+      address_line1: data?.address_line1 ?? null,
+      address_line2: data?.address_line2 ?? null,
+      postal_code: data?.postal_code ?? null,
+      city: data?.city ?? null,
+      state_province: data?.state_province ?? null,
+      country: data?.country ?? null,
+      notes: data?.notes ?? null,
       company_size: data?.company_size ?? "small",
-      glassdoor_url: data?.glassdoor_url ?? "",
+      glassdoor_url: data?.glassdoor_url ?? null,
+      linkedin_url: data?.linkedin_url ?? null,
+      twitter_url: data?.twitter_url ?? null,
+      siret: data?.siret ?? null,
+      is_default: data?.is_default ?? false,
       id: data?.id ?? null,
     } as z.infer<typeof companySchema>,
     validators: {
@@ -106,12 +124,112 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
           }}
         </form.Field>
 
-        <form.Field name="location">
+        <form.Field name="address_line1">
           {(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (
               <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Localisation</FieldLabel>
+                <FieldLabel htmlFor={field.name}>Adresse (ligne 1)</FieldLabel>
+                <Input
+                  id={field.name}
+                  value={field.state.value ?? ""}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  autoComplete="off"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
+
+        <form.Field name="address_line2">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Adresse (ligne 2)</FieldLabel>
+                <Input
+                  id={field.name}
+                  value={field.state.value ?? ""}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  autoComplete="off"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
+
+        <form.Field name="postal_code">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Code postal</FieldLabel>
+                <Input
+                  id={field.name}
+                  value={field.state.value ?? ""}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  autoComplete="off"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
+
+        <form.Field name="city">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Ville</FieldLabel>
+                <Input
+                  id={field.name}
+                  value={field.state.value ?? ""}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  autoComplete="off"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
+
+        <form.Field name="state_province">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Région / État</FieldLabel>
+                <Input
+                  id={field.name}
+                  value={field.state.value ?? ""}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  autoComplete="off"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
+
+        <form.Field name="country">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Pays</FieldLabel>
                 <Input
                   id={field.name}
                   value={field.state.value ?? ""}
@@ -209,6 +327,70 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
             )
           }}
         </form.Field>
+
+        <form.Field name="linkedin_url">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>LinkedIn</FieldLabel>
+                <Input
+                  id={field.name}
+                  value={field.state.value ?? ""}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  autoComplete="off"
+                  type="url"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
+
+        <form.Field name="twitter_url">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Twitter</FieldLabel>
+                <Input
+                  id={field.name}
+                  value={field.state.value ?? ""}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  autoComplete="off"
+                  type="url"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
+
+        <form.Field name="siret">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>SIRET</FieldLabel>
+                <Input
+                  id={field.name}
+                  maxLength={14}
+                  value={field.state.value ?? ""}
+                  onBlur={field.handleBlur}
+                  onChange={(e) => field.handleChange(e.target.value)}
+                  aria-invalid={isInvalid}
+                  autoComplete="off"
+                />
+                {isInvalid && <FieldError errors={field.state.meta.errors} />}
+              </Field>
+            )
+          }}
+        </form.Field>
+
       </FieldGroup>
 
       <div className="flex justify-end gap-2 mt-4">

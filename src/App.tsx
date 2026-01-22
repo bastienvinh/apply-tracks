@@ -16,11 +16,11 @@ function App() {
       <DetectScreensize>
         <div className="h-screen w-screen flex">
           <AppSideBar />
-          <SidebarInset>
+          <SidebarInset className="overflow-hidden">
             <SidebarHeader />
-            <div className="flex flex-1 flex-col">
-              <div className="@container/main flex flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-6 p-4">
+            <div className="flex flex-1 flex-col overflow-hidden">
+              <div className="@container/main flex flex-1 flex-col gap-2 overflow-hidden">
+                <div className="flex flex-col gap-6 p-4 overflow-scroll">
                   <Outlet />
                 </div>
               </div>
