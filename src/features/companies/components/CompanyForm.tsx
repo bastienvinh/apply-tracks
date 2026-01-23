@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button"
 import { InputGroup, InputGroupAddon, InputGroupText, InputGroupTextarea } from "@/components/ui/input-group"
 import { useNavigate } from "react-router"
 import { companiesRoute } from "@/routes"
-import { CompanySize } from "@/services/companies"
+import { Company, CompanySize } from "@/services/companies"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
+import { useCreateCompany } from "../hooks/use-companies-mutation"
 
 export const companySchema = z.object({
   id: z.uuidv4().optional().nullable(),
@@ -36,7 +37,7 @@ interface CompanyFormProps {
 
 export function CompanyForm({ className, data }: CompanyFormProps) {
   const navigate = useNavigate()
-  // const { mutateAsync: createCompany } = useCreateCompany()
+  const { mutateAsync: createCompany } = useCreateCompany()
   // const { mutateAsync: updateCompany } = useUpdateCompany()
 
   const form = useForm({
@@ -63,8 +64,16 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
     },
     onSubmit: async ({ value }) => {
       try {
+
+        if (value.id) {
+
+        } else {
+          console.log("Creating company with value:", value)
+          // Be careful with the type assertion here
+          await createCompany(value as Partial<Company>)
+        }
+
         toast.success(`Entreprise enregistrée: ${value.name}`)
-        console.log("Submitted company:", value)
         navigate(companiesRoute())
       } catch (error) {
         toast.error("Une erreur est survenue lors de l'enregistrement de l'entreprise.")
