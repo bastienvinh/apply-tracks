@@ -111,7 +111,7 @@ export function AdressAutocomplete({ onSelect, value, onBlur, onChange, ariaInva
           <MapPin className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             ref={inputRef}
-            placeholder="Click to see addresses or start typing..."
+            placeholder="Cliquer pour choisir votre adresse..."
             value={address}
             onChange={onChangeAddress}
             onBlur={onBlur}

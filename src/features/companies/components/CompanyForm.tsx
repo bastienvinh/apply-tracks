@@ -11,6 +11,7 @@ import { Company, CompanySize } from "@/services/companies"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { useCreateCompany } from "../hooks/use-companies-mutation"
 import { AdressAutocomplete } from "@/components/form/AdressAutocomplete"
+import { CountryAutoComplete } from "@/components/form/CountryAutoComplete"
 
 export const companySchema = z.object({
   id: z.uuidv4().optional().nullable(),
@@ -140,14 +141,7 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
             return (
               <Field data-invalid={isInvalid}>
                 <FieldLabel htmlFor={field.name}>Pays</FieldLabel>
-                <Input
-                  id={field.name}
-                  value={field.state.value ?? ""}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  aria-invalid={isInvalid}
-                  autoComplete="off"
-                />
+                <CountryAutoComplete value={field.state.value ?? ""} onChange={(value) => field.handleChange(value)} onBlur={field.handleBlur} ariaInvalid={isInvalid} />
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
               </Field>
             )
