@@ -10,6 +10,7 @@ import { companiesRoute } from "@/routes"
 import { Company, CompanySize } from "@/services/companies"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { useCreateCompany } from "../hooks/use-companies-mutation"
+import { AdressAutocomplete } from "@/components/form/AdressAutocomplete"
 
 export const companySchema = z.object({
   id: z.uuidv4().optional().nullable(),
@@ -133,12 +134,12 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
           }}
         </form.Field>
 
-        <form.Field name="address_line1">
+        <form.Field name="country">
           {(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (
               <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Adresse (ligne 1)</FieldLabel>
+                <FieldLabel htmlFor={field.name}>Pays</FieldLabel>
                 <Input
                   id={field.name}
                   value={field.state.value ?? ""}
@@ -152,6 +153,30 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
             )
           }}
         </form.Field>
+
+        <form.Field name="address_line1">
+          {(field) => {
+            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+            return (
+              <Field data-invalid={isInvalid}>
+                <FieldLabel htmlFor={field.name}>Adresse (ligne 1)</FieldLabel>
+                <AdressAutocomplete 
+                value={field.state.value ?? ""}
+                onBlur={field.handleBlur}
+                onChange={(value) => field.handleChange(value)}
+                ariaInvalid={isInvalid}
+                onSelect={(address) => {
+                  form.setFieldValue("address_line1", address.address1)
+                  form.setFieldValue("postal_code", address.postalCode)
+                  form.setFieldValue("city", address.city)
+                  form.setFieldValue("state_province", address.state)
+                  form.setFieldValue("country", address.country)
+                }} />
+              </Field>
+            )
+          }}
+        </form.Field>
+        
 
         <form.Field name="address_line2">
           {(field) => {
@@ -219,26 +244,6 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
             return (
               <Field data-invalid={isInvalid}>
                 <FieldLabel htmlFor={field.name}>Région / État</FieldLabel>
-                <Input
-                  id={field.name}
-                  value={field.state.value ?? ""}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  aria-invalid={isInvalid}
-                  autoComplete="off"
-                />
-                {isInvalid && <FieldError errors={field.state.meta.errors} />}
-              </Field>
-            )
-          }}
-        </form.Field>
-
-        <form.Field name="country">
-          {(field) => {
-            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
-            return (
-              <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Pays</FieldLabel>
                 <Input
                   id={field.name}
                   value={field.state.value ?? ""}
