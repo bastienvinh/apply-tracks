@@ -38,6 +38,21 @@ interface CompanyFormProps {
   data?: any // Replace with your Company type if available
 }
 
+const emptyStringsToNull = z.transform((val) => {
+  if (val && typeof val === "object" && !Array.isArray(val)) {
+    const out: Record<string, unknown> = {};
+    for (const [k, v] of Object.entries(val as Record<string, unknown>)) {
+      out[k] = v === "" ? null : v;
+    }
+    return out;
+  }
+  return val;
+});
+
+const preprocessorCompany = z.preprocess((data) => {
+  return (typeof data === "object") ? null : data
+}, companySchema)
+
 export function CompanyForm({ className, data }: CompanyFormProps) {
   const navigate = useNavigate()
   const { mutateAsync: createCompany } = useCreateCompany()
@@ -67,17 +82,18 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
       onSubmit: companySchema,
     },
     onSubmit: async ({ value }) => {
-      try {
+      const entry = z.parse(emptyStringsToNull, value) as z.infer<typeof companySchema>
 
+      try {
         if (value.id) {
 
         } else {
-          console.log("Creating company with value:", value)
+          // console.log("Creating company with value:", entry)
           // Be careful with the type assertion here
-          await createCompany(value as Partial<Company>)
+          await createCompany(entry as Partial<Company>)
         }
 
-        toast.success(`Entreprise enregistrée: ${value.name}`)
+        toast.success(`Entreprise enregistrée: ${entry.name}`)
         navigate(companiesRoute())
       } catch (error) {
         toast.error("Une erreur est survenue lors de l'enregistrement de l'entreprise.")
@@ -299,7 +315,7 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
                     onChange={(e) => field.handleChange(e.target.value)}
                     rows={4}
                     className="min-h-24 resize-none"
-                    placeholder="📝 ecrivez ce que vous voulez"
+                    placeholder="Écrivez ce que vous voulez ... pour décrire votre entreprise"
                     aria-invalid={isInvalid}
                   />
                   <InputGroupAddon align="block-end">
@@ -425,7 +441,7 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
                 <FieldLabel htmlFor={field.name}>SIRET</FieldLabel>
                 <Input
                   id={field.name}
-                  maxLength={14}
+                  maxLength={17}
                   value={field.state.value ?? ""}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}

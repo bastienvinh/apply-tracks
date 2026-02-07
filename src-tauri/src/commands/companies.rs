@@ -190,8 +190,6 @@ pub async fn create_company(
     input: CreateCompanyRequest,
 ) -> Result<CompanyResponse, CompanyError> {
 
-    println!("Michelle est a gaga");
-
     let new = NewCompany {
         name: input.name,
         website: input.website,

@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS companies (
   updated_at      TEXT NOT NULL, -- ISO8601
   deleted_at      TEXT           -- ISO8601, NULL if not deleted
   -- Validate SIRET: null or exactly 14 digits
-  , CHECK (siret IS NULL OR (length(siret) = 14 AND siret GLOB '[0-9]*'))
+  , CHECK (siret IS NULL OR (length(siret) = 17 AND siret GLOB '^(?:\d{3}\s?\d{3}\s?\d{3}\s?\d{5})?$'))
 );
 
 -- ============
