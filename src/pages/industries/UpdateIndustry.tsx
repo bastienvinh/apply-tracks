@@ -7,7 +7,11 @@ export function UpdateIndustry() {
   const { id } = useParams<{ id: string }>()
   const { data } = useIndustry(id!)
 
-  console.log(data)
+  if (!data) {
+    return <div className="w-full flex justify-center">
+      Impossible de trouver le secteur d'activité
+    </div>
+  }
 
   return <div className="w-full flex justify-center">
     <div className="w-1/2">

@@ -1,3 +1,19 @@
+import { Card, CardContent } from "@/components/ui/card";
+import { CompanyForm } from "@/features/companies/components/CompanyForm";
+import { useCompany } from "@/features/companies/hooks/use-companies";
+import { useParams } from "react-router";
+
 export function UpdateCompany() {
-  return <div>UpdateCompany</div>
+  const { id } = useParams<{ id: string }>()
+  const {data} = useCompany(id!)
+
+  return <div className="w-full flex justify-center">
+    <div className="w-1/2">
+      <Card>
+        <CardContent>
+          <CompanyForm data={data} />
+        </CardContent>
+      </Card>
+    </div>
+  </div>
 }

@@ -35,3 +35,19 @@ export function useCompanies(options?: UseCompaniesOptions) {
     error,
   }
 }
+
+export function useCompany(id: string, enabled = true) {
+  const { data, error, isLoading, isFetching } = useQuery({
+    queryKey: ['company', id],
+    queryFn: () => CompaniesService.getById(id),
+    enabled: enabled && !!id,
+    staleTime: 2 * 60 * 1000, // 2 minutes
+  })
+
+  return {
+    data,
+    isLoading,
+    isFetching,
+    error,
+  }
+}

@@ -4,7 +4,7 @@ import { toast } from "sonner"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { InputGroup, InputGroupAddon, InputGroupText, InputGroupTextarea } from "@/components/ui/input-group"
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, InputGroupTextarea } from "@/components/ui/input-group"
 import { useNavigate } from "react-router"
 import { companiesRoute } from "@/routes"
 import { Company, CompanySize } from "@/services/companies"
@@ -41,7 +41,7 @@ interface CompanyFormProps {
 export function CompanyForm({ className, data }: CompanyFormProps) {
   const navigate = useNavigate()
   const { mutateAsync: createCompany } = useCreateCompany()
-  
+
   const [selectedCountry, setSelectedCountry] = useState<string>(data?.country ?? "France")
 
   const form = useForm({
@@ -85,6 +85,10 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
     },
   })
 
+  function handleWebsite(propertyName: string, website: string) {
+    form.setFieldValue(propertyName as keyof z.infer<typeof companySchema>, website ? `https://${website.replace(/^https?:\/\//, "")}` : "")
+  }
+
   return (
     <form
       onSubmit={(e) => {
@@ -119,18 +123,21 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
         <form.Field name="website">
           {(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+
             return (
               <Field data-invalid={isInvalid}>
                 <FieldLabel htmlFor={field.name}>Site web</FieldLabel>
-                <Input
-                  id={field.name}
-                  value={field.state.value ?? ""}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  aria-invalid={isInvalid}
-                  autoComplete="off"
-                  type="url"
-                />
+                <InputGroup>
+                  <InputGroupAddon>
+                    <InputGroupText className="text-white">https://</InputGroupText>
+                  </InputGroupAddon>
+                  <InputGroupInput value={field.state.value?.replace(/^https?:\/\//, "") ?? ""}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => handleWebsite(field.name, e.target.value)}
+                    aria-invalid={isInvalid}
+                    type="text"
+                    autoComplete="off" placeholder="example.com" className="pl-0.5!" />
+                </InputGroup>
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
               </Field>
             )
@@ -157,18 +164,18 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
               return (
                 <Field data-invalid={isInvalid}>
                   <FieldLabel htmlFor={field.name}>Adresse (ligne 1)</FieldLabel>
-                  <AdressAutocomplete 
-                  value={field.state.value ?? ""}
-                  onBlur={field.handleBlur}
-                  onChange={(value) => field.handleChange(value)}
-                  ariaInvalid={isInvalid}
-                  onSelect={(address) => {
-                    form.setFieldValue("address_line1", address.address1)
-                    form.setFieldValue("postal_code", address.postalCode)
-                    form.setFieldValue("city", address.city)
-                    form.setFieldValue("state_province", address.state)
-                    form.setFieldValue("country", address.country)
-                  }} />
+                  <AdressAutocomplete
+                    value={field.state.value ?? ""}
+                    onBlur={field.handleBlur}
+                    onChange={(value) => field.handleChange(value)}
+                    ariaInvalid={isInvalid}
+                    onSelect={(address) => {
+                      form.setFieldValue("address_line1", address.address1)
+                      form.setFieldValue("postal_code", address.postalCode)
+                      form.setFieldValue("city", address.city)
+                      form.setFieldValue("state_province", address.state)
+                      form.setFieldValue("country", address.country)
+                    }} />
                 </Field>
               )
             }}
@@ -292,6 +299,7 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
                     onChange={(e) => field.handleChange(e.target.value)}
                     rows={4}
                     className="min-h-24 resize-none"
+                    placeholder="📝 ecrivez ce que vous voulez"
                     aria-invalid={isInvalid}
                   />
                   <InputGroupAddon align="block-end">
@@ -346,15 +354,17 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
             return (
               <Field data-invalid={isInvalid}>
                 <FieldLabel htmlFor={field.name}>Lien Glassdoor</FieldLabel>
-                <Input
-                  id={field.name}
-                  value={field.state.value ?? ""}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  aria-invalid={isInvalid}
-                  autoComplete="off"
-                  type="url"
-                />
+                <InputGroup>
+                  <InputGroupAddon>
+                    <InputGroupText className="text-white">https://</InputGroupText>
+                  </InputGroupAddon>
+                  <InputGroupInput value={field.state.value?.replace(/^https?:\/\//, "") ?? ""}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => handleWebsite(field.name, e.target.value)}
+                    aria-invalid={isInvalid}
+                    type="text"
+                    autoComplete="off" placeholder="example.com" className="pl-0.5!" />
+                </InputGroup>
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
               </Field>
             )
@@ -367,15 +377,17 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
             return (
               <Field data-invalid={isInvalid}>
                 <FieldLabel htmlFor={field.name}>LinkedIn</FieldLabel>
-                <Input
-                  id={field.name}
-                  value={field.state.value ?? ""}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  aria-invalid={isInvalid}
-                  autoComplete="off"
-                  type="url"
-                />
+                <InputGroup>
+                  <InputGroupAddon>
+                    <InputGroupText className="text-white">https://</InputGroupText>
+                  </InputGroupAddon>
+                  <InputGroupInput value={field.state.value?.replace(/^https?:\/\//, "") ?? ""}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => handleWebsite(field.name, e.target.value)}
+                    aria-invalid={isInvalid}
+                    type="text"
+                    autoComplete="off" placeholder="linkedin.com/in/[username]" className="pl-0.5!" />
+                </InputGroup>
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
               </Field>
             )
@@ -388,15 +400,17 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
             return (
               <Field data-invalid={isInvalid}>
                 <FieldLabel htmlFor={field.name}>Twitter</FieldLabel>
-                <Input
-                  id={field.name}
-                  value={field.state.value ?? ""}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  aria-invalid={isInvalid}
-                  autoComplete="off"
-                  type="url"
-                />
+                <InputGroup>
+                  <InputGroupAddon>
+                    <InputGroupText className="text-white">https://</InputGroupText>
+                  </InputGroupAddon>
+                  <InputGroupInput value={field.state.value?.replace(/^https?:\/\//, "") ?? ""}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => handleWebsite(field.name, e.target.value)}
+                    aria-invalid={isInvalid}
+                    type="text"
+                    autoComplete="off" placeholder="x.com/[username]" className="pl-0.5!" />
+                </InputGroup>
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
               </Field>
             )
@@ -417,6 +431,8 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
                   onChange={(e) => field.handleChange(e.target.value)}
                   aria-invalid={isInvalid}
                   autoComplete="off"
+                  placeholder="123 456 789 00012"
+                  pattern="^(?:\d{3}\s?\d{3}\s?\d{3}\s?\d{5})?$"
                 />
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
               </Field>
