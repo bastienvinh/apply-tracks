@@ -12,6 +12,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@
 import { useCreateCompany } from "../hooks/use-companies-mutation"
 import { AdressAutocomplete } from "@/components/form/AdressAutocomplete"
 import { CountryAutoComplete } from "@/components/form/CountryAutoComplete"
+import { useState } from "react"
 
 export const companySchema = z.object({
   id: z.uuidv4().optional().nullable(),
@@ -40,7 +41,8 @@ interface CompanyFormProps {
 export function CompanyForm({ className, data }: CompanyFormProps) {
   const navigate = useNavigate()
   const { mutateAsync: createCompany } = useCreateCompany()
-  // const { mutateAsync: updateCompany } = useUpdateCompany()
+  
+  const [selectedCountry, setSelectedCountry] = useState<string>(data?.country ?? "France")
 
   const form = useForm({
     defaultValues: {
@@ -51,7 +53,7 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
       postal_code: data?.postal_code ?? null,
       city: data?.city ?? null,
       state_province: data?.state_province ?? null,
-      country: data?.country ?? null,
+      country: selectedCountry,
       notes: data?.notes ?? null,
       company_size: data?.company_size ?? "small",
       glassdoor_url: data?.glassdoor_url ?? null,
@@ -141,36 +143,59 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
             return (
               <Field data-invalid={isInvalid}>
                 <FieldLabel htmlFor={field.name}>Pays</FieldLabel>
-                <CountryAutoComplete value={field.state.value ?? ""} onChange={(value) => field.handleChange(value)} onBlur={field.handleBlur} ariaInvalid={isInvalid} />
+                <CountryAutoComplete value={field.state.value ?? ""} onChange={(value) => { field.handleChange(value); setSelectedCountry(value) }} onBlur={field.handleBlur} ariaInvalid={isInvalid} />
                 {isInvalid && <FieldError errors={field.state.meta.errors} />}
               </Field>
             )
           }}
         </form.Field>
 
-        <form.Field name="address_line1">
-          {(field) => {
-            const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
-            return (
-              <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor={field.name}>Adresse (ligne 1)</FieldLabel>
-                <AdressAutocomplete 
-                value={field.state.value ?? ""}
-                onBlur={field.handleBlur}
-                onChange={(value) => field.handleChange(value)}
-                ariaInvalid={isInvalid}
-                onSelect={(address) => {
-                  form.setFieldValue("address_line1", address.address1)
-                  form.setFieldValue("postal_code", address.postalCode)
-                  form.setFieldValue("city", address.city)
-                  form.setFieldValue("state_province", address.state)
-                  form.setFieldValue("country", address.country)
-                }} />
-              </Field>
-            )
-          }}
-        </form.Field>
-        
+        {selectedCountry === "France" && (
+          <form.Field name="address_line1">
+            {(field) => {
+              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Adresse (ligne 1)</FieldLabel>
+                  <AdressAutocomplete 
+                  value={field.state.value ?? ""}
+                  onBlur={field.handleBlur}
+                  onChange={(value) => field.handleChange(value)}
+                  ariaInvalid={isInvalid}
+                  onSelect={(address) => {
+                    form.setFieldValue("address_line1", address.address1)
+                    form.setFieldValue("postal_code", address.postalCode)
+                    form.setFieldValue("city", address.city)
+                    form.setFieldValue("state_province", address.state)
+                    form.setFieldValue("country", address.country)
+                  }} />
+                </Field>
+              )
+            }}
+          </form.Field>
+        )}
+
+
+        {selectedCountry !== "France" && (
+          <form.Field name="address_line1">
+            {(field) => {
+              const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
+              return (
+                <Field data-invalid={isInvalid}>
+                  <FieldLabel htmlFor={field.name}>Adresse (ligne 1)</FieldLabel>
+                  <Input
+                    id={field.name}
+                    value={field.state.value ?? ""}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                    aria-invalid={isInvalid}
+                    autoComplete="off"
+                  />
+                </Field>
+              )
+            }}
+          </form.Field>
+        )}
 
         <form.Field name="address_line2">
           {(field) => {

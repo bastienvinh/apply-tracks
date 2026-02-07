@@ -30,6 +30,6 @@ export class CountryService {
   }
 
   public static getByName(name: string): { code: string, name: string }[] {
-    return (countries.filter(country => country.name?.toLowerCase().includes(name.toLowerCase())) ?? []) as { code: string, name: string }[];
+    return (countries.filter(country => country.name?.toLowerCase().includes(name.toLowerCase())) ?? []).toSorted((a, b) => a.name!.localeCompare(b.name!)) as { code: string, name: string }[];
   }
 }
