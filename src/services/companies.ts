@@ -44,6 +44,7 @@ export class CompaniesService {
   public static getById = async (id: string): Promise<Company | null> => await invoke("fetch_company", { id })
   public static deleteById = async (id: string): Promise<boolean> => await invoke("remove_company", { id })
   public static create = async (company: Partial<Company>): Promise<Company> => await invoke("create_company", { input: company })
+  public static update = async (id: string, company: Partial<Company>): Promise<Company> => await invoke("update_company", { id, input: company })
 }
 
 

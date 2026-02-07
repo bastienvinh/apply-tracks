@@ -28,7 +28,7 @@ pub struct Company {
 }
 
 #[derive(Debug)]
-pub struct NewCompany {
+pub struct NewCompanyRow {
   pub name: String,
   pub website: Option<String>,
   // Structured postal address
@@ -108,7 +108,7 @@ pub async fn delete_company(pool: &SqlitePool, id: &str) -> Result<bool, sqlx::E
   Ok(result.rows_affected() > 0)
 }
 
-pub async fn add_company(pool: &SqlitePool, new: NewCompany) -> Result<Company, sqlx::Error> {
+pub async fn add_company(pool: &SqlitePool, new: NewCompanyRow) -> Result<Company, sqlx::Error> {
   let id = Uuid::new_v4().to_string();
 
   let inserted: Company = sqlx::query_as::<_, Company>(
@@ -136,4 +136,32 @@ pub async fn add_company(pool: &SqlitePool, new: NewCompany) -> Result<Company, 
     .await?;
 
   Ok(inserted)
+}
+
+pub async fn up_company(pool: &SqlitePool, id: &str, updated: NewCompanyRow) -> Result<Company, sqlx::Error> {
+  let updated_company: Company = sqlx::query_as::<_, Company>(
+    "UPDATE companies SET
+      name = ?, website = ?, address_line1 = ?, address_line2 = ?, postal_code = ?, city = ?, state_province = ?, country = ?,
+      company_size = ?, glassdoor_url = ?, linkedin_url = ?, twitter_url = ?, siret = ?, notes = ?, updated_at = datetime('now')
+     WHERE id = ? AND deleted_at IS NULL RETURNING *"
+  )
+    .bind(updated.name)
+    .bind(updated.website)
+    .bind(updated.address_line1)
+    .bind(updated.address_line2)
+    .bind(updated.postal_code)
+    .bind(updated.city)
+    .bind(updated.state_province)
+    .bind(updated.country)
+    .bind(updated.company_size)
+    .bind(updated.glassdoor_url)
+    .bind(updated.linkedin_url)
+    .bind(updated.twitter_url)
+    .bind(updated.siret)
+    .bind(updated.notes)
+    .bind(id)
+    .fetch_one(pool)
+    .await?;
+
+  Ok(updated_company)
 }

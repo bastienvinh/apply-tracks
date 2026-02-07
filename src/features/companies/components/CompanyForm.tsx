@@ -1,18 +1,20 @@
 import { useForm } from "@tanstack/react-form"
 import z from "zod"
 import { toast } from "sonner"
+import { useNavigate } from "react-router"
+import { useState } from "react"
+import { omit } from "es-toolkit"
+
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupText, InputGroupTextarea } from "@/components/ui/input-group"
-import { useNavigate } from "react-router"
 import { companiesRoute } from "@/routes"
 import { Company, CompanySize } from "@/services/companies"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
-import { useCreateCompany } from "../hooks/use-companies-mutation"
+import { useCreateCompany, useUpdateCompany } from "../hooks/use-companies-mutation"
 import { AdressAutocomplete } from "@/components/form/AdressAutocomplete"
 import { CountryAutoComplete } from "@/components/form/CountryAutoComplete"
-import { useState } from "react"
 
 export const companySchema = z.object({
   id: z.uuidv4().optional().nullable(),
@@ -49,18 +51,16 @@ const emptyStringsToNull = z.transform((val) => {
   return val;
 });
 
-const preprocessorCompany = z.preprocess((data) => {
-  return (typeof data === "object") ? null : data
-}, companySchema)
-
 export function CompanyForm({ className, data }: CompanyFormProps) {
   const navigate = useNavigate()
   const { mutateAsync: createCompany } = useCreateCompany()
+  const { mutateAsync: updateCompany } = useUpdateCompany()
 
   const [selectedCountry, setSelectedCountry] = useState<string>(data?.country ?? "France")
 
   const form = useForm({
     defaultValues: {
+      id: data?.id ?? null,
       name: data?.name ?? "",
       website: data?.website ?? null,
       address_line1: data?.address_line1 ?? null,
@@ -76,7 +76,6 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
       twitter_url: data?.twitter_url ?? null,
       siret: data?.siret ?? null,
       is_default: data?.is_default ?? false,
-      id: data?.id ?? null,
     } as z.infer<typeof companySchema>,
     validators: {
       onSubmit: companySchema,
@@ -86,7 +85,7 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
 
       try {
         if (value.id) {
-
+          await updateCompany(entry as Partial<Company> & { id: string })
         } else {
           // console.log("Creating company with value:", entry)
           // Be careful with the type assertion here

@@ -25,6 +25,7 @@ import {
 
 import { Industry } from "@/services/industries"
 import { Link } from "react-router"
+import { updateIndustryRoute } from "@/routes"
 
 interface IndustriesTableProps {
   data: Industry[]
@@ -62,7 +63,7 @@ const createColumns = (onDelete?: (industry: string) => void): ColumnDef<Industr
               <DropdownMenuItem
                 asChild
               >
-                <Link to={`/industries/${industry.id}`}>
+                <Link to={updateIndustryRoute(industry.id)}>
                   <Pen className="mr-2 h-4 w-4" />
                   Modifier
                 </Link>

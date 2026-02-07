@@ -1,4 +1,4 @@
-use backend_data_apply_tracking::companies::{delete_company, get_all_companies, get_companies_paginated, get_company_by_id, add_company, NewCompany};
+use backend_data_apply_tracking::companies::{NewCompanyRow, add_company, delete_company, get_all_companies, get_companies_paginated, get_company_by_id, up_company};
 use backend_data_apply_tracking::DbPool;
 use serde::{Serialize, Deserialize};
 
@@ -190,7 +190,7 @@ pub async fn create_company(
     input: CreateCompanyRequest,
 ) -> Result<CompanyResponse, CompanyError> {
 
-    let new = NewCompany {
+    let new = NewCompanyRow {
         name: input.name,
         website: input.website,
         address_line1: input.address_line1,
@@ -206,8 +206,6 @@ pub async fn create_company(
         siret: input.siret,
         notes: input.notes
     };
-
-    println!("Creating company: {:?}", new);
 
     match add_company(&*pool, new).await {
         Ok(c) => Ok(CompanyResponse {
@@ -235,3 +233,71 @@ pub async fn create_company(
     }
 }
 
+#[derive(Deserialize)]
+pub struct UpdateCompanyRequest {
+    pub id: String,
+    pub name: String,
+    pub website: Option<String>,
+    pub address_line1: Option<String>,
+    pub address_line2: Option<String>,
+    pub postal_code: Option<String>,
+    pub city: Option<String>,
+    pub state_province: Option<String>,
+    pub country: Option<String>,
+    pub company_size: Option<String>,
+    pub glassdoor_url: Option<String>,
+    pub linkedin_url: Option<String>,
+    pub twitter_url: Option<String>,
+    pub siret: Option<String>,
+    pub notes: Option<String>,
+}
+
+#[tauri::command]
+pub async fn update_company(
+    pool: tauri::State<'_, DbPool>,
+    id: String,
+    input: UpdateCompanyRequest,
+) -> Result<CompanyResponse, CompanyError> {
+
+    let updated = NewCompanyRow {
+        name: input.name,
+        website: input.website,
+        address_line1: input.address_line1,
+        address_line2: input.address_line2,
+        postal_code: input.postal_code,
+        city: input.city,
+        state_province: input.state_province,
+        country: input.country,
+        company_size: input.company_size,
+        glassdoor_url: input.glassdoor_url,
+        linkedin_url: input.linkedin_url,
+        twitter_url: input.twitter_url,
+        siret: input.siret,
+        notes: input.notes
+    };
+
+    match up_company(&*pool, &id, updated).await {
+        Ok(c) => Ok(CompanyResponse {
+            id: c.id,
+            name: c.name,
+            website: c.website,
+            address_line1: c.address_line1,
+            address_line2: c.address_line2,
+            postal_code: c.postal_code,
+            city: c.city,
+            state_province: c.state_province,
+            country: c.country,
+            company_size: c.company_size,
+            glassdoor_url: c.glassdoor_url,
+            linkedin_url: c.linkedin_url,
+            twitter_url: c.twitter_url,
+            siret: c.siret,
+            notes: c.notes,
+            is_default: false, // TODO
+            created_at: c.created_at.to_string(),
+            updated_at: c.updated_at.to_string(),
+            deleted_at: c.deleted_at.map(|d| d.to_string()),
+        }),
+        Err(e) => Err(CompanyError::DatabaseError { message: e.to_string() }),
+    }
+}

@@ -5,7 +5,11 @@ import { useParams } from "react-router";
 
 export function UpdateCompany() {
   const { id } = useParams<{ id: string }>()
-  const {data} = useCompany(id!)
+  const {data, error, isFetching, isLoading} = useCompany(id!)
+
+  if (!isFetching) {
+    console.log(data)
+  }
 
   return <div className="w-full flex justify-center">
     <div className="w-1/2">

@@ -28,3 +28,18 @@ export function useCreateCompany() {
     }
   })
 }
+
+export function useUpdateCompany() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (company: Partial<Company> & { id: string }) => CompaniesService.update(company.id, company),
+    onSuccess: (payload) => {
+      queryClient.invalidateQueries({ queryKey: ['companies'] })
+      queryClient.invalidateQueries({ queryKey: ['company', payload.id] })
+    },
+    onError: (error) => {
+      console.error("Error updating company:", error)
+    }
+  })
+}

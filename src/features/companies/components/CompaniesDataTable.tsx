@@ -25,7 +25,7 @@ import {
 
 import { Link } from "react-router"
 import { Company } from "@/services/companies"
-import { companyDetailRoute } from "@/routes"
+import { companyDetailRoute, updateCompanyRoute } from "@/routes"
 import { useDeleteCompany } from "../hooks/use-companies-mutation"
 
 interface CompaniesTableProps {
@@ -71,7 +71,7 @@ const createColumns = (onDelete: (id: string) => void): ColumnDef<Company>[] => 
               <DropdownMenuItem
                 asChild
               >
-                <Link to={companyDetailRoute(company.id)}>
+                <Link to={updateCompanyRoute(company.id)}>
                   <Pen className="mr-2 h-4 w-4" />
                   Modifier
                 </Link>

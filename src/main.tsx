@@ -33,10 +33,10 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
               <Route path="tags" element={<Tags />} />
               <Route path="companies" element={<Companies />} />
               <Route path="companies/new" element={<CreateCompany />} />
-              <Route path="companies/:id" element={<UpdateCompany />} />
+              <Route path="companies/:id/edit" element={<UpdateCompany />} />
               <Route path="industries" element={<Industries />} />
               <Route path="industries/new" element={<CreateIndustry />} />
-              <Route path="industries/:id" element={<UpdateIndustry />} />
+              <Route path="industries/:id/edit" element={<UpdateIndustry />} />
             </Route>
           </Routes>
         </BrowserRouter>
