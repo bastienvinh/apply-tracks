@@ -73,6 +73,15 @@ export function AppSideBar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
 
+                <SidebarMenuItem>
+                  <SidebarMenuButton asChild>
+                    <Link to="/test">
+                      <Tags />
+                      <span>Test</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

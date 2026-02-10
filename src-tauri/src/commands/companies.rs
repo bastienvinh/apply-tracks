@@ -235,7 +235,6 @@ pub async fn create_company(
 
 #[derive(Deserialize)]
 pub struct UpdateCompanyRequest {
-    pub id: String,
     pub name: String,
     pub website: Option<String>,
     pub address_line1: Option<String>,

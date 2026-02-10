@@ -461,7 +461,7 @@ export function CompanyForm({ className, data }: CompanyFormProps) {
         <Button onClick={() => navigate(companiesRoute())} type="button">
           Retour
         </Button>
-        <Button type="submit">Enregistrer</Button>
+        <Button type="submit">{data?.id ? "Enregistrer" : "Créer"}</Button>
       </div>
     </form>
   )

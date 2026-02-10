@@ -25,8 +25,9 @@ import {
 
 import { Link } from "react-router"
 import { Company } from "@/services/companies"
-import { companyDetailRoute, updateCompanyRoute } from "@/routes"
+import { updateCompanyRoute } from "@/routes"
 import { useDeleteCompany } from "../hooks/use-companies-mutation"
+import { CompaniesContextMenu } from "./CompaniesContextMenu"
 
 interface CompaniesTableProps {
   data: Company[]
@@ -36,22 +37,57 @@ const createColumns = (onDelete: (id: string) => void): ColumnDef<Company>[] => 
   {
     accessorKey: "id",
     header: "Code",
+    cell: ({ row }) => {
+      return <CompaniesContextMenu data={row.original}>
+        <div className="flex w-full">
+          {row.original.id}
+        </div>
+      </CompaniesContextMenu>
+    }
   },
   {
     accessorKey: "name",
     header: "Nom",
+    cell: ({ row }) => {
+      return <CompaniesContextMenu data={row.original}>
+        <div className="flex w-full">
+          {row.original.name}
+        </div>
+      </CompaniesContextMenu>
+    }
   },
   {
     accessorKey: "website",
     header: "Site web",
+    cell: ({ row }) => {
+      return <CompaniesContextMenu data={row.original}>
+        <div className="flex w-full">
+          {row.original.website}
+        </div>
+      </CompaniesContextMenu>
+    }
   },
   {
     accessorKey: "city",
     header: "Ville",
+    cell: ({ row }) => {
+      return <CompaniesContextMenu data={row.original}>
+        <div className="flex w-full">
+          {row.original.city}
+        </div>
+      </CompaniesContextMenu>
+    }
   },
   {
     accessorKey: "notes",
     header: "Notes",
+    cell: ({ row }) => {
+      return <CompaniesContextMenu data={row.original}>
+        <div className="flex">
+          {row.original.notes?.substring(0, 50) || "Aucune note"}
+        </div>
+      </CompaniesContextMenu>
+    }
   },
   {
     id: "actions",
