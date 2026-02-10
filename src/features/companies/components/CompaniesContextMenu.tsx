@@ -42,6 +42,11 @@ export function CompaniesContextMenu({ children, data }: CompaniesContextMenuPro
       navigate(updateCompanyRoute(data.id));
     }
   }
+
+  // If the company is default, we don't want to show the context menu
+  if (data?.is_default) {
+    return children
+  }
   
   return (
     <ContextMenu>

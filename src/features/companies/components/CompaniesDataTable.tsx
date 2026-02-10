@@ -94,6 +94,10 @@ const createColumns = (onDelete: (id: string) => void): ColumnDef<Company>[] => 
     cell: ({ row }) => {
       const company = row.original
 
+      if (company.is_default) {
+        return <div className="flex justify-end"></div>
+      }
+
       return (
         <div className="flex justify-end">
           <DropdownMenu>
