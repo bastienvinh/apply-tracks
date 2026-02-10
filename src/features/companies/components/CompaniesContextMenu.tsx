@@ -1,7 +1,7 @@
 import { ContextMenu, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuSeparator, ContextMenuTrigger } from "@/components/ui/context-menu"
 import { Company } from "@/services/companies"
 import { DefaultApplicationService } from "@/services/defaultApplication"
-import { Eye, Pencil, Trash2 } from "lucide-react"
+import { Eye, Pencil, Send, Trash2 } from "lucide-react"
 import { useDeleteCompany } from "../hooks/use-companies-mutation"
 import { useNavigate } from "react-router"
 import { updateCompanyRoute } from "@/routes"
@@ -53,8 +53,14 @@ export function CompaniesContextMenu({ children, data }: CompaniesContextMenuPro
           <ContextMenuItem onClick={handleCopyId}>Copy ID</ContextMenuItem>
         </ContextMenuGroup>
         <ContextMenuSeparator />
+
         <ContextMenuGroup>
-          <ContextMenuItem onClick={handleVisitWebsite}><Eye /> Visiter leur site web</ContextMenuItem>
+          <ContextMenuItem><Eye />Voir Détail</ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+
+        <ContextMenuGroup>
+          <ContextMenuItem onClick={handleVisitWebsite}><Send />Visiter leur site web</ContextMenuItem>
           <ContextMenuItem onClick={handleEdit}><Pencil /> Modifier</ContextMenuItem>
         </ContextMenuGroup>
         <ContextMenuSeparator />
