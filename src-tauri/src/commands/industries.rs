@@ -18,13 +18,13 @@ pub struct IndustriesResult {
 
 #[derive(Debug, Serialize)]
 pub struct PaginatedIndustriesResult {
-    pub data: Vec<IndustryResponse>,
-    pub count: i64,
-    pub current_page: i64,
-    pub per_page: i64,
-    pub total_pages: i64,
-    pub has_next: bool,
-    pub has_previous: bool,
+	pub data: Vec<IndustryResponse>,
+	pub count: i64,
+	pub current_page: i64,
+	pub per_page: i64,
+	pub total_pages: i64,
+	pub has_next: bool,
+	pub has_previous: bool,
 }
 
 #[derive(Debug, Serialize)]

@@ -58,6 +58,7 @@ pub fn run() {
             commands::industries::remove_industry,
             commands::industries::add_industry,
             commands::industries::update_industry,
+            commands::tags::fetch_tags,
             commands::default_application::open_website
         ])
         .run(tauri::generate_context!())
